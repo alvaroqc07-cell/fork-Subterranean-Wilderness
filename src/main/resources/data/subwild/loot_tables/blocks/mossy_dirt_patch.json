@@ -1,0 +1,93 @@
+{
+	"type": "minecraft:block",
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "minecraft:item",
+					"name": "subwild:mossy_dirt_patch"
+				}
+			],
+			"conditions": [
+				{
+					"condition": "minecraft:match_tool",
+					"predicate": {
+						"enchantments": [
+							{
+								"enchantment": "minecraft:silk_touch",
+								"levels": {
+									"min": 1
+								}
+							}
+						]
+					}
+				}
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "1" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 2 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "2" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 3 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "3" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 4 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "4" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 5 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "5" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 6 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "6" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 7 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "7" } }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "subwild:dirt_pile", "functions": [{ "function": "minecraft:set_count", "count": 8 }] }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:mossy_dirt_patch", "properties": { "layers": "8" } }
+			]
+		}
+	]
+}

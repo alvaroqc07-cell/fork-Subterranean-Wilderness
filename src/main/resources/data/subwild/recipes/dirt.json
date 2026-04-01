@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": {
+			"item": "subwild:dirt_pile"
+		}
+	},
+	"result": {
+		"item": "minecraft:dirt"
+	}
+}

@@ -1,0 +1,12 @@
+﻿{
+    "replace":  false,
+    "values":  [
+                   "subwild:obsidian_speleothem",
+                   "subwild:frozen_obsidian_speleothem",
+                   "subwild:molten_obsidian",
+                   "subwild:mossy_obsidian",
+                   "subwild:wet_obsidian",
+                   "subwild:hot_obsidian"
+               ]
+}
+

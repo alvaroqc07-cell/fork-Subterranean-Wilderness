@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": {
+			"item": "subwild:pebble"
+		}
+	},
+	"result": {
+		"item": "minecraft:cobblestone"
+	}
+}

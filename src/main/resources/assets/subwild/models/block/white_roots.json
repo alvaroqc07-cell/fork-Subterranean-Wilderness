@@ -1,0 +1,7 @@
+{
+	"parent": "minecraft:block/hanging_roots",
+	"textures":
+	{
+		"cross": "subwild:block/white_roots"
+	}
+}

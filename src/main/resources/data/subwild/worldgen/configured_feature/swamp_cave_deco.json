@@ -1,0 +1,10 @@
+{
+  "type": "subwild:cave",
+  "config": {
+    "cave_ranges": [
+      { "cave_type": { "name": "subwild:mossy" }, "min": 0.0, "max": 0.8 },
+      { "cave_type": { "name": "subwild:lush_volcanic" }, "min": 0.8, "max": 1.0 }
+    ]
+  }
+}
+

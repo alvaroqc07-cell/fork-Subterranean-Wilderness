@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"category": "building",
+	"pattern": [
+		"##",
+		"##"
+	],
+	"key": {
+		"#": {
+			"item": "subwild:sand_pile"
+		}
+	},
+	"result": {
+		"item": "minecraft:sand"
+	}
+}

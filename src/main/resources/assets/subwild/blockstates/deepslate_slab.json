@@ -1,0 +1,17 @@
+{
+	"variants":
+	{
+		"type=bottom":
+		{
+			"model": "subwild:block/deepslate_slab"
+		},
+		"type=double":
+		{
+			"model": "block/deepslate"
+		},
+		"type=top":
+		{
+			"model": "subwild:block/deepslate_slab_top"
+		}
+	}
+}
