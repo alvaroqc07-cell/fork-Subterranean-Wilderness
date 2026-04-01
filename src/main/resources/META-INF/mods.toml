@@ -1,0 +1,34 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+issueTrackerURL="https://github.com/alvaroqc07-cell/fork-Subterranean-Wilderness/issues"
+license="Attribution-NonCommercial 3.0 Unported"
+
+[[mods]]
+modId="subwild"
+version="1.1"
+displayName="Subterranean Wilderness Revival"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/subterranean-wilderness"
+logoFile="subwild.png"
+credits="On MMD: TelepathicGrunt, Gigaherz. Special thanks to Paint_Ninja!"
+authors="Ronidas, Melonslise, Paint_Ninja"
+description='''
+Subterranean Wilderness Revival is a faithful and carefully modernized continuation of the original mod by Melonslise.
+This continuation preserves the essence and vision of the original project while adapting it to integrate seamlessly with the modern Minecraft 1.20.1 experience.
+Subterranean Wilderness Revival aims to spice up the old vanilla caves you got bored of years ago and bring you the cave update you always wanted.
+
+Delve deep into the depths of the earth and unfold the beauty of its wild and untouched, diverse environments and climates. Throughout your journey, you will come across the frigid, pure and flawless exteriors of glacial caves; trudge through the impassable, ravishing flora of humid tropical caves; unearth the fascinating fungal kingdoms beneath mushroom islands; discover the many stunning vibrant corals flourishing in flooded sea caves, with many, many more still waiting to be explored...
+'''
+
+[[dependencies.subwild]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.subwild]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.20.2)"
+ordering="NONE"
+side="BOTH"

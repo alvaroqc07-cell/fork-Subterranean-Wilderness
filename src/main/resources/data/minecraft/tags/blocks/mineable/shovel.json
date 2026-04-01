@@ -1,0 +1,18 @@
+﻿{
+    "replace":  false,
+    "values":  [
+                   "subwild:dirt_stairs",
+                   "subwild:dirt_slab",
+                   "subwild:dirt_patch",
+                   "subwild:mossy_dirt_patch",
+                   "subwild:podzol_patch",
+                   "subwild:gravel_patch",
+                   "subwild:sand_patch",
+                   "subwild:red_sand_patch",
+                   "subwild:mossy_dirt",
+                   "subwild:mossy_sand",
+                   "subwild:mossy_red_sand",
+                   "subwild:mossy_gravel"
+               ]
+}
+

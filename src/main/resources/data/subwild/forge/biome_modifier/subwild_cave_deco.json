@@ -1,0 +1,21 @@
+{
+  "type": "subwild:cave_deco",
+  "rules": [
+    { "biomes": "minecraft:deep_dark", "features": [] },
+    { "biomes": "minecraft:lush_caves", "features": [ "subwild:jungle_cave_deco" ] },
+    { "biomes": "minecraft:dripstone_caves", "features": [ "subwild:rocky_cave_deco" ] },
+    { "biomes": "#subwild:wet", "features": [ "subwild:wet_air_cave_deco", "subwild:wet_liquid_cave_deco" ] },
+    { "biomes": "#subwild:taiga", "features": [ "subwild:taiga_cave_deco" ] },
+    { "biomes": "#subwild:extreme_hills", "features": [ "subwild:extreme_hills_cave_deco" ] },
+    { "biomes": "#subwild:jungle", "features": [ "subwild:jungle_cave_deco" ] },
+    { "biomes": "#subwild:mesa", "features": [ "subwild:mesa_cave_deco" ] },
+    { "biomes": "#subwild:plains", "features": [ "subwild:plains_cave_deco" ] },
+    { "biomes": "#subwild:savanna", "features": [ "subwild:savanna_cave_deco" ] },
+    { "biomes": "#subwild:icy", "features": [ "subwild:icy_cave_deco" ] },
+    { "biomes": "#subwild:forest", "features": [ "subwild:forest_cave_deco" ] },
+    { "biomes": "#subwild:desert", "features": [ "subwild:desert_cave_deco" ] },
+    { "biomes": "#subwild:swamp", "features": [ "subwild:swamp_cave_deco" ] },
+    { "biomes": "#subwild:mushroom", "features": [ "subwild:mushroom_cave_deco" ] }
+  ],
+  "default_feature": "subwild:rocky_cave_deco"
+}
