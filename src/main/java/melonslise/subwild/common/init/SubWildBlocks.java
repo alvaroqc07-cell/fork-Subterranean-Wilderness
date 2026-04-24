@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import melonslise.subwild.SubWild;
 import melonslise.subwild.common.block.DrippingBlock;
+import melonslise.subwild.common.block.CoalShardBlock;
 import melonslise.subwild.common.block.EncasedOreBlock;
 import melonslise.subwild.common.block.EncasedSpeleothemBlock;
 import melonslise.subwild.common.block.FoxfireBlock;
@@ -16,6 +17,7 @@ import melonslise.subwild.common.block.PuddleBlock;
 import melonslise.subwild.common.block.RootsBlock;
 import melonslise.subwild.common.block.SpeleothemBlock;
 import melonslise.subwild.common.block.XpBlock;
+import melonslise.subwild.common.item.ThrowablePebbleItem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.item.BlockItem;
@@ -69,6 +71,7 @@ public final class SubWildBlocks
 		ICE_PATCH = add("ice_patch", () -> new MeltingPatchBlock(BlockBehaviour.Properties.of().friction(0.98f).strength(0.1f).noOcclusion().sound(SoundType.GLASS))),
 		WATER_PUDDLE = add("water_puddle", () -> new PuddleBlock(BlockBehaviour.Properties.of().replaceable().noCollission().strength(0f).sound(SubWildSoundTypes.WATER))),
 		PEBBLE = add("pebble", () -> new PebbleBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.STONE))),
+		COAL_SHARD = add("coal_shard", () -> new CoalShardBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.STONE))),
 		SANDSTONE_PEBBLE = add("sandstone_pebble", () -> new PebbleBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.SAND))),
 		RED_SANDSTONE_PEBBLE = add("red_sandstone_pebble", () -> new PebbleBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.SAND))),
 
@@ -314,7 +317,12 @@ public final class SubWildBlocks
 	public static <T extends Block> RegistryObject<T> add(String name, Supplier<T> supplier)
 	{
 		RegistryObject<T> reg = BLOCKS.register(name, supplier);
-		SubWildItems.add(name, () -> new BlockItem(reg.get(), new Item.Properties()));
+		SubWildItems.add(name, () -> isPebbleItem(name) ? new ThrowablePebbleItem(reg.get(), new Item.Properties()) : new BlockItem(reg.get(), new Item.Properties()));
 		return reg;
+	}
+
+	private static boolean isPebbleItem(String name)
+	{
+		return "pebble".equals(name) || "sandstone_pebble".equals(name) || "red_sandstone_pebble".equals(name);
 	}
 }

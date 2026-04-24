@@ -55,15 +55,13 @@ public class MossyRockyCaveType extends BasicCaveType
 		}
 		if(pass == 1)
 		{
-			if(SubWildConfig.GENERATE_PUDDLES.get() && this.getNoise(noise, pos, 0.125d) < -0.2d)
+			if(SubWildConfig.GENERATE_PUDDLES.get() && rand.nextFloat() < (SubWildConfig.WATER_PUDDLE_GENERATION_CHANCE.get().floatValue() / 100.0f) && this.getNoise(noise, pos, 0.125d) < -0.2d)
 				this.genBlock(world, pos, SubWildBlocks.WATER_PUDDLE.get().defaultBlockState());
 			else if(rand.nextInt(36) == 0)
-				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
+				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
 			final double d = this.getNoise(noise, pos, 0.1d);
 			if(SubWildConfig.GENERATE_PATCHES.get() && -0.1d < d && d < 0.4d)
 				this.genLayer(world, pos, SubWildBlocks.GRAVEL_PATCH.get().defaultBlockState(), d, -0.1d, 0.4d, 5);
-			if(SubWildConfig.GENERATE_BUTTONS.get() && rand.nextFloat() < (SubWildConfig.MOSSY_ROCKY_BUTTONS_CHANCE.get().floatValue() / 100))
-				this.genBlock(world, pos, SubWildBlocks.PEBBLE.get().defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 	}

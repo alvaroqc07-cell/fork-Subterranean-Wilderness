@@ -48,10 +48,10 @@ public class MossyCaveType extends BasicCaveType
 		}
 		if(pass == 1)
 		{
-			if(SubWildConfig.GENERATE_PUDDLES.get() && this.getNoise(noise, pos, 0.125d) < 0d)
+			if(SubWildConfig.GENERATE_PUDDLES.get() && rand.nextFloat() < (SubWildConfig.WATER_PUDDLE_GENERATION_CHANCE.get().floatValue() / 100.0f) && this.getNoise(noise, pos, 0.125d) < 0d)
 				this.genBlock(world, pos, SubWildBlocks.WATER_PUDDLE.get().defaultBlockState());
 			else if(rand.nextInt(36) == 0)
-				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
+				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 	}

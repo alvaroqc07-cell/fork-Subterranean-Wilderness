@@ -56,7 +56,7 @@ public class DeadCoralCaveType extends BasicCaveType
 		}
 		if(pass == 1)
 		{
-			if(SubWildConfig.GENERATE_PUDDLES.get() && this.getNoise(noise, pos, 0.125d) < 0.4d)
+			if(SubWildConfig.GENERATE_PUDDLES.get() && rand.nextFloat() < (SubWildConfig.WATER_PUDDLE_GENERATION_CHANCE.get().floatValue() / 100.0f) && this.getNoise(noise, pos, 0.125d) < 0.4d)
 				this.genBlock(world, pos, SubWildBlocks.WATER_PUDDLE.get().defaultBlockState());
 			if(SubWildConfig.GENERATE_DEAD_FLOOR_CORAL.get() && this.getNoise(noise, pos, 0.15d) > 0.6d)
 				this.genBlock(world, pos, DEAD_CORAL[rand.nextInt(DEAD_CORAL.length)].defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, false)); // (int) (this.getClampedNoise(noise, pos, 0.03125d) * (double) DEAD_CORAL.length)

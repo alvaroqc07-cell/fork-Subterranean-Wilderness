@@ -1,13 +1,14 @@
 {
 	"itemGroup.subwild": "Subterranean Wilderness Revival",
+	"config.subwild.title": "Subterranean Wilderness Revival Konfiguration",
 
 	"block.subwild.dirt_stairs": "Erdetreppe",
 	"block.subwild.dirt_slab": "Erdestufe",
 	"block.subwild.deepslate_stairs": "Tiefenschiefertreppe",
 	"block.subwild.deepslate_slab": "Tiefenschieferstufe",
 
-	"block.subwild.short_foxfire": "Leuchtender Pilz",
-	"block.subwild.long_foxfire": "Leuchtender Pilz",
+	"block.subwild.short_foxfire": "Kurzer Leuchtpilz",
+	"block.subwild.long_foxfire": "Langer Leuchtpilz",
 
 	"block.subwild.light_brown_roots": "Hellbraune Wurzeln",
 	"block.subwild.brown_roots": "Braune Wurzeln",
@@ -25,6 +26,7 @@
 	"block.subwild.ice_patch": "Eisschicht",
 	"block.subwild.water_puddle": "Pfütze",
 	"block.subwild.pebble": "Kiesel",
+	"block.subwild.coal_shard": "Kohlescherbe",
 	"block.subwild.sandstone_pebble": "Sandsteinkiesel",
 	"block.subwild.red_sandstone_pebble": "Roter-Sandsteinkiesel",
 

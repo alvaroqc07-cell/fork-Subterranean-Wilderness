@@ -2,7 +2,7 @@ package melonslise.subwild.common.world.gen.feature.cavetype;
 
 import java.util.Map;
 import java.util.Optional;
-import net.minecraft.util.RandomSource;import java.util.Set;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import com.mojang.serialization.Codec;
@@ -15,10 +15,13 @@ import melonslise.subwild.common.init.SubWildFeatures;
 import melonslise.subwild.common.init.SubWildLookups;
 import melonslise.subwild.common.init.SubWildProperties;
 import melonslise.subwild.common.init.SubWildTags;
+import melonslise.subwild.common.util.SubWildUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -72,6 +75,11 @@ public abstract class CaveType
 
 	public abstract int getPasses();
 
+	public boolean isDeepVariantAt(WorldGenLevel world, BlockPos pos)
+	{
+		return false;
+	}
+
 	public boolean isNatural(WorldGenLevel world, BlockPos pos, BlockState state)
 	{
 		return state.is(Tags.Blocks.STONE) || state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.COBBLED_DEEPSLATE || state.getBlock() == Blocks.BLACKSTONE || state.getBlock() == Blocks.MAGMA_BLOCK || state.is(Tags.Blocks.COBBLESTONE) || state.is(BlockTags.CORAL_BLOCKS) || state.getBlock() == Blocks.SNOW_BLOCK || state.getBlock() == Blocks.PRISMARINE || state.is(BlockTags.ICE) || state.is(Tags.Blocks.SANDSTONE) || state.is(SubWildTags.TERRACOTTA) || state.is(Tags.Blocks.SAND) || state.is(Tags.Blocks.GRAVEL) || state.is(BlockTags.DIRT) || state.is(Tags.Blocks.OBSIDIAN);
@@ -79,10 +87,19 @@ public abstract class CaveType
 
 	public boolean genBlock(WorldGenLevel world, BlockPos pos, BlockState state)
 	{
+		if(!this.canPlaceInCurrentFluid(world, pos, state))
+			return false;
 		if(!state.canSurvive(world, pos))
 			return false;
 		world.setBlock(pos, state, 2);
 		return true;
+	}
+
+	protected boolean canPlaceInCurrentFluid(WorldGenLevel world, BlockPos pos, BlockState state)
+	{
+		if(!world.getFluidState(pos).is(FluidTags.WATER))
+			return true;
+		return state.getFluidState().is(FluidTags.WATER) || state.isCollisionShapeFullBlock(world, pos);
 	}
 
 	public boolean replaceBlock(WorldGenLevel world, BlockPos pos, BlockState state)
@@ -91,6 +108,8 @@ public abstract class CaveType
 		Block block = existing.getBlock();
 		if(!existing.is(Tags.Blocks.ORES))
 			return this.genBlock(world, pos, state);
+		else if(!SubWildConfig.GENERATE_SUBWILD_ORES.get())
+			return false;
 		else
 			return Optional.ofNullable(SubWildLookups.ORE_TABLE.get(state.getBlock()))
 				.map(lookup -> lookup.get(block))
@@ -109,11 +128,9 @@ public abstract class CaveType
 
 	public boolean genLayer(WorldGenLevel world, BlockPos pos, BlockState state, double noise, double min, double max, int maxHgt)
 	{
-		if(noise < min || noise > max)
+		if(noise < min || noise > max || world.getFluidState(pos).is(FluidTags.WATER))
 			return false;
-		// Normalize our noise to range (0, 1)
 		final double nrm = (noise - min) / (max - min);
-		// Use linear formula 1 - 2abs(x - 0.5) where x is normalized to 0-1
 		this.genBlock(world, pos, state.setValue(BlockStateProperties.LAYERS, (int) ((1d - 2d * Math.abs(nrm - 0.5d)) * (double) maxHgt) + 1));
 		return true;
 	}
@@ -125,7 +142,7 @@ public abstract class CaveType
 
 	public void genVines(WorldGenLevel world, BlockPos pos, Direction mainDir, int len)
 	{
-		if (!SubWildConfig.GENERATE_VINES.get())
+		if(!SubWildConfig.GENERATE_VINES.get())
 			return;
 
 		BlockPos.MutableBlockPos next = new BlockPos.MutableBlockPos().set(pos);
@@ -157,26 +174,33 @@ public abstract class CaveType
 
 	public void genSpel(WorldGenLevel world, BlockPos pos, BlockState state, int size)
 	{
-		if (!SubWildConfig.GENERATE_SPELEOTHEMS.get())
+		if(!SubWildConfig.GENERATE_SPELEOTHEMS.get())
 			return;
 
 		Direction dir = state.getValue(SubWildProperties.VERTICAL_FACING);
+		boolean underwater = world.getFluidState(pos).is(FluidTags.WATER);
 		BlockPos.MutableBlockPos next = new BlockPos.MutableBlockPos().set(pos);
 		for(int a = 0; a < size; ++a)
 		{
 			BlockState nextState = world.getBlockState(next.move(dir));
 			BlockState newState = state;
-			if(nextState.isAir())
+			if(this.isSpeleothemOpenSpace(nextState, underwater))
 				newState = newState.setValue(SubWildProperties.FACING_LOOKUP.get(dir), a != size - 1);
-			else if(a > 0 && this.isNatural(world, next, nextState)) // ((SpeleothemBlock) state.getBlock()).canSupport(world, pos, newState, next, nextState)
+			else if(a > 0 && this.isNatural(world, next, nextState))
 				newState = newState.setValue(SubWildProperties.VERTICAL_FACING, dir.getOpposite());
 			if(a > 0)
 				newState = newState.setValue(SubWildProperties.FACING_LOOKUP.get(dir.getOpposite()), true);
-			this.genBlock(world, next.move(dir.getOpposite()), newState);
+			BlockPos placePos = next.move(dir.getOpposite());
+			this.genBlock(world, placePos, SubWildUtil.waterlog(newState, world, placePos));
 			next.move(dir);
-			if(!nextState.isAir())
+			if(!this.isSpeleothemOpenSpace(nextState, underwater))
 				return;
 		}
+	}
+
+	protected boolean isSpeleothemOpenSpace(BlockState state, boolean underwater)
+	{
+		return underwater ? state.getFluidState().is(FluidTags.WATER) : state.isAir();
 	}
 
 	public void genBigBrownShroom(WorldGenLevel world, BlockPos pos, int len)
@@ -219,7 +243,7 @@ public abstract class CaveType
 			for(int b = 0; b < 2; ++b)
 			{
 				BlockPos next1 = next.offset(0, b, 0);
-				if(world.getBlockState(next1).isPathfindable(world, next, PathComputationType.LAND))
+				if(world.getBlockState(next1).isPathfindable(world, next1, PathComputationType.LAND))
 					this.genBlock(world, next1, Blocks.RED_MUSHROOM_BLOCK.defaultBlockState());
 			}
 			next.move(a == 0 || a == 1 ? 1 : -1, 0, a == 0 || a == 3 ? 1 : -1);
@@ -229,9 +253,6 @@ public abstract class CaveType
 			this.genBlock(world, next, Blocks.RED_MUSHROOM_BLOCK.defaultBlockState());
 	}
 
-	/**
-	 * Generally frequency means 1 / (number of blocks per feature). So for example a frequency of 1/8 or 0.125 means we are likely to get a feature every 8 tiles.
-	 */
 	public double getNoise(INoise noise, BlockPos pos, double frequency)
 	{
 		return noise.sample((double) pos.getX() * frequency, (double) pos.getY() * frequency, (double) pos.getZ() * frequency);

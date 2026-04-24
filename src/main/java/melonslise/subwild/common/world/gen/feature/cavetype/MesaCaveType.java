@@ -55,7 +55,7 @@ public class MesaCaveType extends BasicCaveType
 				this.genLayer(world, pos, SubWildBlocks.RED_SAND_PATCH.get().defaultBlockState(), d, -0.5d, 0.5d, 5);
 			else if(SubWildConfig.GENERATE_DEAD_BUSHES.get() && rand.nextFloat() < (SubWildConfig.MESA_DEAD_BUSHES_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, Blocks.DEAD_BUSH.defaultBlockState());
-			else if(SubWildConfig.GENERATE_BUTTONS.get() && rand.nextInt(14) == 0)
+			else if(SubWildConfig.GENERATE_BUTTONS.get() && rand.nextFloat() < (SubWildConfig.RED_SANDSTONE_PEBBLE_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, SubWildBlocks.RED_SANDSTONE_PEBBLE.get().defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);

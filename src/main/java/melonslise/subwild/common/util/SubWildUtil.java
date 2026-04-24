@@ -50,15 +50,23 @@ public final class SubWildUtil
 
 	public static BlockState waterlog(BlockState state, LevelReader world, BlockPos pos)
 	{
+		if(!state.hasProperty(BlockStateProperties.WATERLOGGED))
+			return state;
 		FluidState fluidState = world.getFluidState(pos);
-		return state.setValue(BlockStateProperties.WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
+		return state.setValue(BlockStateProperties.WATERLOGGED, fluidState.is(FluidTags.WATER));
 	}
 
 	public static BlockState copyStateProps(BlockState from, BlockState to)
 	{
-		for(Property prop : from.getProperties()) // getProperties
-			to = to.setValue(prop, from.getValue(prop));
+		for(Property<?> prop : from.getProperties()) // getProperties
+			if(to.hasProperty(prop))
+				to = copyStateProp(from, to, prop);
 		return to;
+	}
+
+	private static <T extends Comparable<T>> BlockState copyStateProp(BlockState from, BlockState to, Property<T> prop)
+	{
+		return to.setValue(prop, from.getValue(prop));
 	}
 
 	// TODO Test performance vs manual creation of map and iteration

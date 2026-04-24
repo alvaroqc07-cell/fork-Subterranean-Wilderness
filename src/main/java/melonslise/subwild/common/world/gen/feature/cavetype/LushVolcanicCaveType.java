@@ -13,6 +13,9 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class LushVolcanicCaveType extends BasicCaveType
 {
+	protected static final double LUSH_VOLCANIC_BLACKSTONE_BLEND_SCALE = 0.09375d;
+	protected static final double LUSH_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD = -0.20d;
+
 	public LushVolcanicCaveType(String domain, String path)
 	{
 		super(domain, path);
@@ -39,6 +42,7 @@ public class LushVolcanicCaveType extends BasicCaveType
 		if(pass == 0)
 		{
 			final double d = this.getNoise(noise, pos, 0.125d);
+			this.blendSubtleBlackstone(world, noise, pos, LUSH_VOLCANIC_BLACKSTONE_BLEND_SCALE, LUSH_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(d < -0.55d )
 				this.replaceBlock(world, pos, Blocks.MAGMA_BLOCK.defaultBlockState());
 			else if(d < -0.2d)
@@ -54,28 +58,31 @@ public class LushVolcanicCaveType extends BasicCaveType
 	@Override
 	public void genFloorExtra(WorldGenLevel world, INoise noise, BlockPos pos, float depth, int pass, RandomSource rand)
 	{
+		boolean handled = false;
 		if(this.genVolcanicTransitionFloorExtra(world, noise, pos, depth, pass, rand))
+			handled = true;
+		else if(this.genUnifiedDeepFloorExtra(world, noise, pos, depth, pass, rand))
+			handled = true;
+		if(handled)
 		{
 			super.genFloorExtra(world, noise, pos, depth, pass, rand);
-			return;
-		}
-		if(this.genUnifiedDeepFloorExtra(world, noise, pos, depth, pass, rand))
-		{
-			super.genFloorExtra(world, noise, pos, depth, pass, rand);
+			this.tryGenCoalShard(world, pos, rand, VOLCANIC_COAL_SHARD_RARITY);
 			return;
 		}
 		if(pass == 1)
 		{
-			if(this.getNoise(noise, pos, 0.2d) > 0.4d)
+			if(this.getNoise(noise, pos, 0.2d) > 0.4d && rand.nextFloat() < (SubWildConfig.LUSH_VOLCANIC_LEAVES_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, pos, LushCaveType.LEAVES[(int) (this.getClampedNoise(noise, pos, 0.015625d) * (double) LushCaveType.LEAVES.length)].defaultBlockState().setValue(BlockStateProperties.PERSISTENT, true));
 			if(this.getNoise(noise, pos, 0.16d) > 0.5d)
 				this.genBlock(world, pos, LushCaveType.PLANTS[(int) (this.getClampedNoise(noise, pos, 0.03125d) * (double) LushCaveType.PLANTS.length)].defaultBlockState());
 			if(SubWildConfig.GENERATE_SAPLINGS.get() && rand.nextFloat() < (SubWildConfig.LUSH_VOLCANIC_SAPLINGS_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, LushCaveType.SAPLINGS[rand.nextInt(LushCaveType.SAPLINGS.length)].defaultBlockState());
 			else if(rand.nextInt(45) == 0)
-				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
+				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
+		if(pass == 1)
+			this.tryGenCoalShard(world, pos, rand, VOLCANIC_COAL_SHARD_RARITY);
 	}
 
 	@Override
@@ -94,6 +101,7 @@ public class LushVolcanicCaveType extends BasicCaveType
 		if(pass == 0)
 		{
 			final double d = this.getNoise(noise, pos, 0.1d);
+			this.blendSubtleBlackstone(world, noise, pos, LUSH_VOLCANIC_BLACKSTONE_BLEND_SCALE, LUSH_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(d < -0.4d)
 				this.modifyBlock(world, pos, SubWildLookups.MOLTEN);
 			else if (d > 0.2d)
@@ -139,6 +147,7 @@ public class LushVolcanicCaveType extends BasicCaveType
 		if(pass == 0)
 		{
 			final double d = this.getNoise(noise, pos, 0.125d);
+			this.blendSubtleBlackstone(world, noise, pos, LUSH_VOLCANIC_BLACKSTONE_BLEND_SCALE, LUSH_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(d < -0.5d)
 				this.modifyBlock(world, pos, SubWildLookups.MOLTEN);
 			else if (d > 0.4d)

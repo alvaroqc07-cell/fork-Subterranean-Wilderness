@@ -2,6 +2,8 @@
 	"replace": false,
 	"values":
 	[
+		"subwild:dirt_redstone_ore",
+		"subwild:tuff_redstone_ore",
 		"subwild:sandstone_redstone_ore",
 		"subwild:smooth_sandstone_redstone_ore",
 		"subwild:red_sandstone_redstone_ore",

@@ -66,7 +66,7 @@ public class PodzolCaveType extends BasicCaveType
 			if(this.getNoise(noise, pos, 0.1d) > 0.5d)
 				this.genBlock(world, pos, LushCaveType.PLANTS[(int) (this.getClampedNoise(noise, pos, 0.03125d) * (double) LushCaveType.PLANTS.length)].defaultBlockState());
 			if(rand.nextInt(34) == 0)
-				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
+				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 	}

@@ -2,6 +2,8 @@
 	"replace": false,
 	"values":
 	[
+		"subwild:dirt_emerald_ore",
+		"subwild:tuff_emerald_ore",
 		"subwild:sandstone_emerald_ore",
 		"subwild:smooth_sandstone_emerald_ore",
 		"subwild:red_sandstone_emerald_ore",

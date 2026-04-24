@@ -2,12 +2,17 @@ package melonslise.subwild.client;
 
 import melonslise.subwild.SubWild;
 import melonslise.subwild.common.init.SubWildBlocks;
+import melonslise.subwild.common.init.SubWildEntities;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -21,6 +26,11 @@ public final class SubWildClientModEvents
 	{
 		event.enqueueWork(() ->
 		{
+			ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
+				() -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new SubWildConfigScreen(screen)));
+
+			EntityRenderers.register(SubWildEntities.PEBBLE_PROJECTILE.get(), ThrownItemRenderer::new);
+
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.SHORT_FOXFIRE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.LONG_FOXFIRE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.LIGHT_BROWN_ROOTS.get(), RenderType.cutout());
@@ -29,6 +39,7 @@ public final class SubWildClientModEvents
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.LIGHT_ORANGE_ROOTS.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.ORANGE_ROOTS.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.DARK_BROWN_ROOTS.get(), RenderType.cutout());
+			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.COAL_SHARD.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.MOLTEN_STONE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.MOLTEN_GRANITE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.MOLTEN_DIORITE.get(), RenderType.cutout());

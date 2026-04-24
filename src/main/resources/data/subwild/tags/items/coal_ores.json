@@ -2,6 +2,8 @@
 	"replace": false,
 	"values":
 	[
+		"subwild:dirt_coal_ore",
+		"subwild:tuff_coal_ore",
 		"subwild:sandstone_coal_ore",
 		"subwild:smooth_sandstone_coal_ore",
 		"subwild:red_sandstone_coal_ore",

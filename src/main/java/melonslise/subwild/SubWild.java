@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import melonslise.subwild.common.config.SubWildConfig;
 import melonslise.subwild.common.init.SubWildBlocks;
+import melonslise.subwild.common.init.SubWildEntities;
 import melonslise.subwild.common.init.SubWildFeatures;
 import melonslise.subwild.common.init.SubWildItems;
 import melonslise.subwild.common.init.SubWildBiomeModifiers;
@@ -26,6 +27,7 @@ public class SubWild
 
 		SubWildBlocks.register();
 		SubWildItems.register();
+		SubWildEntities.register();
 		SubWildPlacementModifiers.register();
 		SubWildFeatures.register();
 		SubWildBiomeModifiers.register();

@@ -2,6 +2,8 @@
 	"replace": false,
 	"values":
 	[
+		"subwild:dirt_lapis_ore",
+		"subwild:tuff_lapis_ore",
 		"subwild:sandstone_lapis_ore",
 		"subwild:smooth_sandstone_lapis_ore",
 		"subwild:red_sandstone_lapis_ore",

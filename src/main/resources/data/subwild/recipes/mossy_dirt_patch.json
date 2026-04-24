@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "subwild:mossy_dirt"
+        }
+    },
+    "result": {
+        "item": "subwild:mossy_dirt_patch",
+        "count": 6
+    }
+}

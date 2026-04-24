@@ -1,13 +1,14 @@
 {
 	"itemGroup.subwild": "Subterranean Wilderness Revival",
+	"config.subwild.title": "Subterranean Wilderness Revival Configuration",
 
 	"block.subwild.dirt_stairs": "Dirt Stairs",
 	"block.subwild.dirt_slab": "Dirt Slab",
 	"block.subwild.deepslate_stairs": "Deepslate Stairs",
 	"block.subwild.deepslate_slab": "Deepslate Slab",
 
-	"block.subwild.short_foxfire": "Foxfire Mushroom",
-	"block.subwild.long_foxfire": "Foxfire Mushroom",
+	"block.subwild.short_foxfire": "Short Foxfire Mushroom",
+	"block.subwild.long_foxfire": "Long Foxfire Mushroom",
 
 	"block.subwild.light_brown_roots": "Light Brown Roots",
 	"block.subwild.brown_roots": "Brown Roots",
@@ -25,6 +26,7 @@
 	"block.subwild.ice_patch": "Ice Patch",
 	"block.subwild.water_puddle": "Water Puddle",
 	"block.subwild.pebble": "Pebble",
+	"block.subwild.coal_shard": "Coal Shard",
 	"block.subwild.sandstone_pebble": "Sandstone Pebble",
 	"block.subwild.red_sandstone_pebble": "Red Sandstone Pebble",
 

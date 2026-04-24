@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:podzol"
+        }
+    },
+    "result": {
+        "item": "subwild:podzol_patch",
+        "count": 6
+    }
+}

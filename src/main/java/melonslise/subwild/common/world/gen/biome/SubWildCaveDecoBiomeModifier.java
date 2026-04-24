@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
+import melonslise.subwild.common.config.SubWildConfig;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
@@ -17,7 +18,11 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
 
-public record SubWildCaveDecoBiomeModifier(List<Rule> rules, Holder<PlacedFeature> defaultFeature) implements BiomeModifier
+public record SubWildCaveDecoBiomeModifier(
+	List<Rule> rules,
+	List<Holder<PlacedFeature>> defaultFeatures,
+	List<Rule> legacyRules,
+	List<Holder<PlacedFeature>> legacyDefaultFeatures) implements BiomeModifier
 {
 	public record Rule(HolderSet<Biome> biomes, List<Holder<PlacedFeature>> features)
 	{
@@ -29,7 +34,9 @@ public record SubWildCaveDecoBiomeModifier(List<Rule> rules, Holder<PlacedFeatur
 
 	public static final Codec<SubWildCaveDecoBiomeModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 		Rule.CODEC.listOf().fieldOf("rules").forGetter(SubWildCaveDecoBiomeModifier::rules),
-		RegistryFileCodec.create(Registries.PLACED_FEATURE, PlacedFeature.DIRECT_CODEC).fieldOf("default_feature").forGetter(SubWildCaveDecoBiomeModifier::defaultFeature)
+		RegistryFileCodec.create(Registries.PLACED_FEATURE, PlacedFeature.DIRECT_CODEC).listOf().fieldOf("default_features").forGetter(SubWildCaveDecoBiomeModifier::defaultFeatures),
+		Rule.CODEC.listOf().fieldOf("legacy_rules").forGetter(SubWildCaveDecoBiomeModifier::legacyRules),
+		RegistryFileCodec.create(Registries.PLACED_FEATURE, PlacedFeature.DIRECT_CODEC).listOf().fieldOf("legacy_default_features").forGetter(SubWildCaveDecoBiomeModifier::legacyDefaultFeatures)
 	).apply(instance, SubWildCaveDecoBiomeModifier::new));
 
 	@Override
@@ -40,8 +47,11 @@ public record SubWildCaveDecoBiomeModifier(List<Rule> rules, Holder<PlacedFeatur
 		if(!biome.is(BiomeTags.IS_OVERWORLD))
 			return;
 
+		boolean adaptive = SubWildConfig.ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES.get();
+		List<Rule> activeRules = adaptive ? this.rules : this.legacyRules;
+		List<Holder<PlacedFeature>> activeDefaults = adaptive ? this.defaultFeatures : this.legacyDefaultFeatures;
 		List<Holder<PlacedFeature>> selected = null;
-		for(Rule rule : this.rules)
+		for(Rule rule : activeRules)
 		{
 			if(rule.biomes().contains(biome))
 			{
@@ -49,14 +59,11 @@ public record SubWildCaveDecoBiomeModifier(List<Rule> rules, Holder<PlacedFeatur
 				break;
 			}
 		}
-		if(selected != null)
-		{
-			for(Holder<PlacedFeature> feature : selected)
-				builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, feature);
-			return;
-		}
+		if(selected == null)
+			selected = activeDefaults;
 
-		builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, this.defaultFeature);
+		for(Holder<PlacedFeature> feature : selected)
+			builder.getGenerationSettings().addFeature(GenerationStep.Decoration.UNDERGROUND_DECORATION, feature);
 	}
 
 	@Override

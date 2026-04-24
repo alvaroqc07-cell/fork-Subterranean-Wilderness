@@ -66,21 +66,21 @@ public class LushCaveType extends BasicCaveType
 				this.genBlock(world, pos, Blocks.MOSS_CARPET.defaultBlockState());
 			else if(SubWildConfig.GENERATE_PATCHES.get() && d < -0.4d)
 				this.genLayer(world, pos, SubWildBlocks.MOSSY_DIRT_PATCH.get().defaultBlockState(), d, -1d, -0.4d, 3);
-			else if(SubWildConfig.GENERATE_PUDDLES.get() && d > 0.1d)
+			else if(SubWildConfig.GENERATE_PUDDLES.get() && rand.nextFloat() < (SubWildConfig.WATER_PUDDLE_GENERATION_CHANCE.get().floatValue() / 100.0f) && d > 0.1d)
 				this.genBlock(world, pos, SubWildBlocks.WATER_PUDDLE.get().defaultBlockState());
 			if(this.getNoise(noise, pos, 0.125d) > 0d)
 				this.genBlock(world, pos, PLANTS[(int) (this.getClampedNoise(noise, pos, 0.03125d) * (double) PLANTS.length)].defaultBlockState());
 			if(SubWildConfig.GENERATE_SAPLINGS.get() && rand.nextFloat() < (SubWildConfig.LUSH_SAPLINGS_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, SAPLINGS[rand.nextInt(SAPLINGS.length)].defaultBlockState());
 			else if(rand.nextInt(34) == 0)
-				world.setBlock(pos, MUSHROOMS[rand.nextInt(MUSHROOMS.length)].defaultBlockState(), 2);
-			if(this.getNoise(noise, pos, 0.1d) > -0.2d)
+				this.genBlock(world, pos, MUSHROOMS[rand.nextInt(MUSHROOMS.length)].defaultBlockState());
+			if(this.getNoise(noise, pos, 0.1d) > -0.2d && rand.nextFloat() < (SubWildConfig.LUSH_LEAVES_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, pos, LEAVES[(int) (this.getClampedNoise(noise, pos, 0.015625d) * (double) LEAVES.length)].defaultBlockState().setValue(BlockStateProperties.PERSISTENT, true));
 			BlockPos up = pos.above();
-			if(this.getNoise(noise, up, 0.1d) > 0.4d && world.getBlockState(up).isAir())
+			if(this.getNoise(noise, up, 0.1d) > 0.4d && world.getBlockState(up).isAir() && rand.nextFloat() < (SubWildConfig.LUSH_LEAVES_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, up, LEAVES[(int) (this.getClampedNoise(noise, up, 0.015625d) * (double) LEAVES.length)].defaultBlockState().setValue(BlockStateProperties.PERSISTENT, true));
 			BlockPos upup = up.above();
-			if(this.getNoise(noise, up, 0.1d) > 0.7d && world.getBlockState(upup).isAir())
+			if(this.getNoise(noise, up, 0.1d) > 0.7d && world.getBlockState(upup).isAir() && rand.nextFloat() < (SubWildConfig.LUSH_LEAVES_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, upup, LEAVES[(int) (this.getClampedNoise(noise, upup, 0.015625d) * (double) LEAVES.length)].defaultBlockState().setValue(BlockStateProperties.PERSISTENT, true));
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);

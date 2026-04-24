@@ -10,14 +10,21 @@ import melonslise.subwild.common.config.SubWildConfig;
 import melonslise.subwild.common.init.SubWildCapabilities;
 import melonslise.subwild.common.init.SubWildPlacementModifiers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.StructureTags;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.CarvingMask;
 import net.minecraft.world.level.chunk.ProtoChunk;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
@@ -42,6 +49,7 @@ public class CavePlacement extends PlacementModifier
 			return Stream.empty();
 		Set<BlockPos> set = new HashSet<>(1024);
 		ChunkAccess chunk = level.getChunk(pos);
+		StructureManager structureManager = this.getStructureManager(level);
 		ChunkPos chPos = chunk.getPos();
 		if(SubWildConfig.EXPENSIVE_SCAN.get())
 		{
@@ -52,7 +60,7 @@ public class CavePlacement extends PlacementModifier
 					for(int y = yMin, yMax = this.getSurfaceY(chunk, x, z); y < yMax; ++y)
 						{
 							mut.set(chPos.getMinBlockX() + x, y, chPos.getMinBlockZ() + z);
-							if(chunk.getBlockState(mut).isAir() && this.hasEnoughSurfaceCover(level, chunk, mut))
+							if(this.isOpenCaveSpace(chunk, mut) && this.isValidGenerationPos(level, chunk, structureManager, mut))
 								set.add(mut.immutable());
 						}
 		}
@@ -60,10 +68,42 @@ public class CavePlacement extends PlacementModifier
 		{
 			CarvingMask mask = protoChunk.getOrCreateCarvingMask(GenerationStep.Carving.AIR);
 			mask.stream(chPos)
-				.filter(carvedPos -> this.hasEnoughSurfaceCover(level, chunk, carvedPos))
+				.filter(carvedPos -> this.isValidGenerationPos(level, chunk, structureManager, carvedPos))
 				.forEach(set::add);
 		}
 		return set.stream();
+	}
+
+	protected boolean isOpenCaveSpace(ChunkAccess chunk, BlockPos pos)
+	{
+		return chunk.getBlockState(pos).isAir() || SubWildConfig.GENERATE_FEATURES_IN_WATER.get() && chunk.getFluidState(pos).is(FluidTags.WATER);
+	}
+
+	protected boolean isValidGenerationPos(WorldGenLevel world, ChunkAccess chunk, StructureManager structureManager, BlockPos pos)
+	{
+		return this.hasEnoughSurfaceCover(world, chunk, pos) && this.canDecorateAt(chunk, structureManager, pos);
+	}
+
+	protected boolean canDecorateAt(ChunkAccess chunk, StructureManager structureManager, BlockPos pos)
+	{
+		if(SubWildConfig.GENERATE_IN_STRUCTURES.get() || structureManager == null || !chunk.hasAnyStructureReferences())
+			return true;
+		Registry<Structure> structureRegistry = structureManager.registryAccess().registryOrThrow(Registries.STRUCTURE);
+		for(Structure structure : chunk.getAllReferences().keySet())
+		{
+			if(!structureManager.getStructureWithPieceAt(pos, structure).isValid())
+				continue;
+			if(!structureRegistry.wrapAsHolder(structure).is(StructureTags.MINESHAFT))
+				return false;
+		}
+		return true;
+	}
+
+	protected StructureManager getStructureManager(WorldGenLevel world)
+	{
+		if(world instanceof WorldGenRegion region)
+			return region.getLevel().structureManager().forWorldGenRegion(region);
+		return null;
 	}
 
 	protected boolean hasEnoughSurfaceCover(WorldGenLevel world, ChunkAccess chunk, BlockPos pos)

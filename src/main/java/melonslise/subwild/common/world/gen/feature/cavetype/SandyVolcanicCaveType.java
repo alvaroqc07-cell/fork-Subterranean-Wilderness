@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.Blocks;
 
 public class SandyVolcanicCaveType extends BasicCaveType
 {
+	protected static final double SANDY_VOLCANIC_BLACKSTONE_BLEND_SCALE = 0.09375d;
+	protected static final double SANDY_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD = 0.20d;
 	public final boolean red;
 
 	public SandyVolcanicCaveType(String domain, String path, boolean red)
@@ -49,6 +51,7 @@ public class SandyVolcanicCaveType extends BasicCaveType
 				this.replaceBlock(world, pos, (this.red ? Blocks.SMOOTH_RED_SANDSTONE : Blocks.SMOOTH_SANDSTONE).defaultBlockState());
 			else
 				this.replaceBlock(world, pos, (this.red ? Blocks.RED_SANDSTONE : Blocks.SANDSTONE).defaultBlockState());
+			this.blendSubtleBlackstone(world, noise, pos, SANDY_VOLCANIC_BLACKSTONE_BLEND_SCALE, SANDY_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(rand.nextFloat() < 0.2f)
 				this.modifyBlock(world, pos, SubWildLookups.MOLTEN);
 		}
@@ -58,14 +61,15 @@ public class SandyVolcanicCaveType extends BasicCaveType
 	@Override
 	public void genFloorExtra(WorldGenLevel world, INoise noise, BlockPos pos, float depth, int pass, RandomSource rand)
 	{
+		boolean handled = false;
 		if(this.genVolcanicTransitionFloorExtra(world, noise, pos, depth, pass, rand))
+			handled = true;
+		else if(this.genUnifiedDeepFloorExtra(world, noise, pos, depth, pass, rand))
+			handled = true;
+		if(handled)
 		{
 			super.genFloorExtra(world, noise, pos, depth, pass, rand);
-			return;
-		}
-		if(this.genUnifiedDeepFloorExtra(world, noise, pos, depth, pass, rand))
-		{
-			super.genFloorExtra(world, noise, pos, depth, pass, rand);
+			this.tryGenCoalShard(world, pos, rand, VOLCANIC_COAL_SHARD_RARITY);
 			return;
 		}
 		if(pass == 1 && SubWildConfig.GENERATE_PATCHES.get())
@@ -75,6 +79,8 @@ public class SandyVolcanicCaveType extends BasicCaveType
 				this.genLayer(world, pos, (this.red ? SubWildBlocks.RED_SAND_PATCH : SubWildBlocks.SAND_PATCH).get().defaultBlockState(), d, 0.4d, 1d, 5);
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
+		if(pass == 1)
+			this.tryGenCoalShard(world, pos, rand, VOLCANIC_COAL_SHARD_RARITY);
 	}
 
 	@Override
@@ -103,6 +109,7 @@ public class SandyVolcanicCaveType extends BasicCaveType
 				this.replaceBlock(world, pos, (this.red ? Blocks.SMOOTH_RED_SANDSTONE : Blocks.SMOOTH_SANDSTONE).defaultBlockState());
 			else
 				this.replaceBlock(world, pos, (this.red ? Blocks.RED_SANDSTONE : Blocks.SANDSTONE).defaultBlockState());
+			this.blendSubtleBlackstone(world, noise, pos, SANDY_VOLCANIC_BLACKSTONE_BLEND_SCALE, SANDY_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(d < -0.7d)
 				this.modifyBlock(world, pos, SubWildLookups.MOLTEN);
 			if(rand.nextFloat() < 0.2f)
@@ -137,6 +144,7 @@ public class SandyVolcanicCaveType extends BasicCaveType
 				this.replaceBlock(world, pos, (this.red ? Blocks.SMOOTH_RED_SANDSTONE : Blocks.SMOOTH_SANDSTONE).defaultBlockState());
 			else
 				this.replaceBlock(world, pos, (this.red ? Blocks.RED_SANDSTONE : Blocks.SANDSTONE).defaultBlockState());
+			this.blendSubtleBlackstone(world, noise, pos, SANDY_VOLCANIC_BLACKSTONE_BLEND_SCALE, SANDY_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD);
 			if(rand.nextFloat() < 0.2f)
 				this.modifyBlock(world, pos, SubWildLookups.MOLTEN);
 		}

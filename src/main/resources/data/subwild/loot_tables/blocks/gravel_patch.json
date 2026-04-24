@@ -88,6 +88,78 @@
 				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
 				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "8" } }
 			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "1" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.0125 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "2" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.025 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "3" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.0375 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "4" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.05 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "5" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.0625 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "6" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.075 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "7" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.0875 }
+			]
+		},
+		{
+			"rolls": 1,
+			"entries": [{ "type": "minecraft:item", "name": "minecraft:flint" }],
+			"conditions": [
+				{ "condition": "minecraft:inverted", "term": { "condition": "minecraft:match_tool", "predicate": { "enchantments": [{ "enchantment": "minecraft:silk_touch", "levels": { "min": 1 } }] } } },
+				{ "condition": "minecraft:block_state_property", "block": "subwild:gravel_patch", "properties": { "layers": "8" } },
+				{ "condition": "minecraft:random_chance", "chance": 0.1 }
+			]
 		}
 	]
 }

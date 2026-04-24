@@ -1,6 +1,6 @@
 package melonslise.subwild.common.world.gen.feature.cavetype;
 
-import net.minecraft.util.RandomSource;import java.util.Map;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -17,6 +17,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -29,14 +31,14 @@ import net.minecraftforge.common.Tags;
 
 public class BasicCaveType extends CaveType
 {
-	public static final Supplier<Block>[] FOXFIRE = new Supplier[] { SubWildBlocks.SHORT_FOXFIRE, SubWildBlocks.LONG_FOXFIRE };
 	public static final Block[] GENERIC_DEEP = new Block[] { Blocks.TUFF, Blocks.DEEPSLATE };
 	protected static final int DEEP_CAVE_START_Y = -15;
 	protected static final int DEEP_CAVE_TRANSITION = 4;
+	protected static final int DEEP_COAL_SHARD_RARITY = 56;
+	protected static final int VOLCANIC_COAL_SHARD_RARITY = 16;
 	protected static final double VOLCANIC_CAVE_START_DEPTH = 0.8d;
 	protected static final int VOLCANIC_CAVE_TRANSITION = 6;
 
-	//  TODO Getters vs fields?
 	public ImmutableSet<Direction> dirs = ImmutableSet.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN);
 	public float floorCh = 2f, ceilCh = 3f;
 	public Supplier<Block>
@@ -70,7 +72,7 @@ public class BasicCaveType extends CaveType
 			if(support.is(BlockTags.PLANKS) || support.is(BlockTags.LOGS) || support.is(BlockTags.WOODEN_SLABS))
 			{
 				if(SubWildConfig.GENERATE_FOXFIRES.get() && this.getNoise(noise, pos, 0.1d) > 0.6d)
-					this.genBlock(world, pos, FOXFIRE[rand.nextInt(FOXFIRE.length)].get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.UP).setValue(SubWildProperties.GLOWING, true));
+					this.tryGenFoxfire(world, pos, Direction.UP, rand);
 			}
 			else if(depth > 0d && !support.is(BlockTags.DIRT) && this.getSpelChance(depth, this.floorCh, rand))
 				this.genRandSpel(world, pos, this.getSpeleothem(world, pos, support).defaultBlockState().setValue(SubWildProperties.VERTICAL_FACING, Direction.UP), depth, rand);
@@ -93,7 +95,7 @@ public class BasicCaveType extends CaveType
 			if(support.is(BlockTags.PLANKS) || support.is(BlockTags.LOGS) || support.is(BlockTags.WOODEN_SLABS))
 			{
 				if(SubWildConfig.GENERATE_FOXFIRES.get() && this.getNoise(noise, pos, 0.1d) > 0.6d)
-					this.genBlock(world, pos, FOXFIRE[rand.nextInt(FOXFIRE.length)].get().defaultBlockState().setValue(BlockStateProperties.FACING, Direction.DOWN).setValue(SubWildProperties.GLOWING, true));
+					this.tryGenFoxfire(world, pos, Direction.DOWN, rand);
 			}
 			else if(!support.is(BlockTags.DIRT))
 			{
@@ -121,7 +123,7 @@ public class BasicCaveType extends CaveType
 			if(support.is(BlockTags.PLANKS) || support.is(BlockTags.LOGS) || support.is(BlockTags.WOODEN_SLABS))
 			{
 				if(SubWildConfig.GENERATE_FOXFIRES.get() && this.getNoise(noise, pos, 0.1d) > 0.6d)
-					this.genBlock(world, pos, FOXFIRE[rand.nextInt(FOXFIRE.length)].get().defaultBlockState().setValue(BlockStateProperties.FACING, wallDir.getOpposite()).setValue(SubWildProperties.GLOWING, true));
+					this.tryGenFoxfire(world, pos, wallDir.getOpposite(), rand);
 			}
 			else
 				this.genSlope(world, pos, wallDir, rand);
@@ -140,13 +142,18 @@ public class BasicCaveType extends CaveType
 	@Override
 	public boolean canGenExtra(WorldGenLevel world, BlockPos pos, BlockState state, BlockPos sidePos, BlockState sideState, float depth, int pass, Direction dir)
 	{
-		return pass == 1 && state.isAir() && (sideState.is(Tags.Blocks.ORES) || sideState.is(BlockTags.PLANKS) || sideState.is(BlockTags.LOGS) || sideState.is(BlockTags.WOODEN_SLABS) || this.isNatural(world, sidePos, sideState));
+		return pass == 1 && this.isOpenExtraSpace(state) && (sideState.is(Tags.Blocks.ORES) || sideState.is(BlockTags.PLANKS) || sideState.is(BlockTags.LOGS) || sideState.is(BlockTags.WOODEN_SLABS) || this.isNatural(world, sidePos, sideState));
 	}
 
 	@Override
 	public boolean canGenFill(WorldGenLevel world, BlockPos pos, BlockState state, float depth, int pass)
 	{
-		return pass == 1 && state.isAir();
+		return pass == 1 && this.isOpenExtraSpace(state);
+	}
+
+	protected boolean isOpenExtraSpace(BlockState state)
+	{
+		return state.isAir() || SubWildConfig.GENERATE_FEATURES_IN_WATER.get() && state.getFluidState().is(FluidTags.WATER);
 	}
 
 	@Override
@@ -161,6 +168,12 @@ public class BasicCaveType extends CaveType
 		return 2;
 	}
 
+	@Override
+	public boolean isDeepVariantAt(WorldGenLevel world, BlockPos pos)
+	{
+		return this.supportsDeepslateDecor(world, pos);
+	}
+
 	public boolean getSpelChance(float depth, float baseCh, RandomSource rand)
 	{
 		return (float) rand.nextInt(100) < baseCh + depth * 3f;
@@ -173,11 +186,15 @@ public class BasicCaveType extends CaveType
 
 	protected boolean supportsDeepslateDecor(WorldGenLevel world, BlockPos pos)
 	{
+		if(SubWildConfig.shouldReplaceDeepTuffVariants())
+			return false;
 		return pos.getY() <= DEEP_CAVE_START_Y - this.getDeepslateTransitionOffset(pos);
 	}
 
 	protected boolean usesDeepslateAccessories(WorldGenLevel world, BlockPos pos)
 	{
+		if(SubWildConfig.shouldReplaceDeepTuffVariants())
+			return false;
 		return pos.getY() <= DEEP_CAVE_START_Y - this.getDeepslateTransitionOffset(pos);
 	}
 
@@ -226,6 +243,7 @@ public class BasicCaveType extends CaveType
 			if(d > 0.55d)
 				this.genLayer(world, pos, SubWildBlocks.GRAVEL_PATCH.get().defaultBlockState(), d, 0.55d, 1d, 4);
 		}
+		this.tryGenCoalShard(world, pos, rand, DEEP_COAL_SHARD_RARITY);
 		return true;
 	}
 
@@ -262,6 +280,28 @@ public class BasicCaveType extends CaveType
 		return true;
 	}
 
+	protected void tryGenCoalShard(WorldGenLevel world, BlockPos pos, RandomSource rand, int rarity)
+	{
+		double chance = SubWildConfig.COAL_SHARD_CHANCE.get() * ((double) DEEP_COAL_SHARD_RARITY / (double) rarity);
+		if(world.getBlockState(pos).isAir() && SubWildConfig.GENERATE_BUTTONS.get() && rand.nextFloat() < (float) (Math.min(100.0d, chance) / 100.0d))
+			this.genBlock(world, pos, SubWildBlocks.COAL_SHARD.get().defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.from2DDataValue(rand.nextInt(4))));
+	}
+
+	protected void blendSubtleBlackstone(WorldGenLevel world, INoise noise, BlockPos pos, double scale, double threshold)
+	{
+		BlockState state = world.getBlockState(pos);
+		if(!this.isSubtleBlackstoneTarget(state))
+			return;
+		if(this.getNoise(noise, pos, scale) >= threshold)
+			this.replaceBlock(world, pos, Blocks.BLACKSTONE.defaultBlockState());
+	}
+
+	protected boolean isSubtleBlackstoneTarget(BlockState state)
+	{
+		Block block = state.getBlock();
+		return state.is(Tags.Blocks.STONE) || state.is(Tags.Blocks.SANDSTONE) || block == Blocks.DEEPSLATE || block == Blocks.COBBLED_DEEPSLATE || block == Blocks.TUFF || block == Blocks.CALCITE || block == Blocks.BASALT;
+	}
+
 	protected Block getSpeleothem(WorldGenLevel world, BlockPos pos, BlockState support)
 	{
 		if(this.usesDeepslateAccessories(world, pos))
@@ -294,8 +334,29 @@ public class BasicCaveType extends CaveType
 
 	public void genRandSpel(WorldGenLevel world, BlockPos pos, BlockState state, float depth, RandomSource rand)
 	{
-		if (SubWildConfig.GENERATE_SPELEOTHEMS.get())
+		double chance = SubWildConfig.getSpeleothemGenerationChance(state.getBlock());
+		if(SubWildConfig.GENERATE_SPELEOTHEMS.get() && chance > 0.0d && rand.nextFloat() < (float) (chance / 100.0d))
 			this.genSpel(world, pos, state, 1 + rand.nextInt(2) + rand.nextInt((int) (depth * 10f) + 1));
+	}
+
+	private void tryGenFoxfire(WorldGenLevel world, BlockPos pos, Direction facing, RandomSource rand)
+	{
+		Block foxfire = this.selectFoxfireVariant(rand);
+		if(foxfire != null)
+			this.genBlock(world, pos, foxfire.defaultBlockState().setValue(BlockStateProperties.FACING, facing).setValue(SubWildProperties.GLOWING, true));
+	}
+
+	private Block selectFoxfireVariant(RandomSource rand)
+	{
+		boolean shortFoxfire = rand.nextFloat() < (SubWildConfig.SHORT_FOXFIRE_GENERATION_CHANCE.get().floatValue() / 100.0f);
+		boolean longFoxfire = rand.nextFloat() < (SubWildConfig.LONG_FOXFIRE_GENERATION_CHANCE.get().floatValue() / 100.0f);
+		if(shortFoxfire && longFoxfire)
+			return rand.nextBoolean() ? SubWildBlocks.SHORT_FOXFIRE.get() : SubWildBlocks.LONG_FOXFIRE.get();
+		if(shortFoxfire)
+			return SubWildBlocks.SHORT_FOXFIRE.get();
+		if(longFoxfire)
+			return SubWildBlocks.LONG_FOXFIRE.get();
+		return null;
 	}
 
 	public void genSlope(WorldGenLevel world, BlockPos pos, Direction wallDir, RandomSource rand)

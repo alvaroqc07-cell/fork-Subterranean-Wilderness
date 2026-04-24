@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:gravel"
+        }
+    },
+    "result": {
+        "item": "subwild:gravel_patch",
+        "count": 6
+    }
+}

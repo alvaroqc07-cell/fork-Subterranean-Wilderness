@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:ice"
+        }
+    },
+    "result": {
+        "item": "subwild:ice_patch",
+        "count": 6
+    }
+}

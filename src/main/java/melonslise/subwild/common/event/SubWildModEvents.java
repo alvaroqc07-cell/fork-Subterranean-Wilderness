@@ -21,6 +21,8 @@ public final class SubWildModEvents
 		CaveDecoFeature.yungHack = ModList.get().isLoaded("bettercaves");
 		event.enqueueWork(() ->
 		{
+			ComposterBlock.COMPOSTABLES.put(SubWildBlocks.SHORT_FOXFIRE.get().asItem(), 0.65F);
+			ComposterBlock.COMPOSTABLES.put(SubWildBlocks.LONG_FOXFIRE.get().asItem(), 0.65F);
 			ComposterBlock.COMPOSTABLES.put(SubWildBlocks.LIGHT_BROWN_ROOTS.get().asItem(), 0.3F);
 			ComposterBlock.COMPOSTABLES.put(SubWildBlocks.BROWN_ROOTS.get().asItem(), 0.3F);
 			ComposterBlock.COMPOSTABLES.put(SubWildBlocks.WHITE_ROOTS.get().asItem(), 0.3F);

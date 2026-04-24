@@ -54,7 +54,7 @@ public class MuddyCaveType extends BasicCaveType
 		if(pass == 1)
 		{
 			final double d = this.getNoise(noise, pos, 0.0625d);
-			if(d < 0d && SubWildConfig.GENERATE_PUDDLES.get())
+			if(d < 0d && SubWildConfig.GENERATE_PUDDLES.get() && rand.nextFloat() < (SubWildConfig.WATER_PUDDLE_GENERATION_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, pos, SubWildBlocks.WATER_PUDDLE.get().defaultBlockState());
 			else if(this.supportsDeepslateDecor(world, pos) && SubWildConfig.GENERATE_PATCHES.get())
 				this.genLayer(world, pos, SubWildBlocks.GRAVEL_PATCH.get().defaultBlockState(), d, 0.3d, 1d, 5);

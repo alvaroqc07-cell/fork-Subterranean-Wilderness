@@ -2,6 +2,8 @@ package melonslise.subwild.common.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -51,7 +53,9 @@ public class PebbleBlock extends Block
 		if(!world.isClientSide)
 		{
 			ItemStack stack = new ItemStack(this.asItem());
-			if(!player.addItem(stack))
+			if(player.addItem(stack))
+				world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, ((world.random.nextFloat() - world.random.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+			else
 				popResource(world, pos, stack);
 			world.removeBlock(pos, false);
 		}

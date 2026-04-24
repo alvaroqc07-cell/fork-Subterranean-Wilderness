@@ -59,8 +59,6 @@ public class IcyRockyCaveType extends BasicCaveType
 				this.genLayer(world, pos, SubWildBlocks.ICE_PATCH.get().defaultBlockState(), d, -0.4d, 1d, 5);
 			else if(SubWildConfig.GENERATE_PATCHES.get() && d > -0.8d)
 				this.genLayer(world, pos, SubWildBlocks.GRAVEL_PATCH.get().defaultBlockState(), d, -0.8d, -0.4d, 4);
-			else if(SubWildConfig.GENERATE_BUTTONS.get() && rand.nextFloat() < (SubWildConfig.ICY_ROCKY_BUTTONS_CHANCE.get().floatValue() / 100))
-				this.genBlock(world, pos, SubWildBlocks.PEBBLE.get().defaultBlockState());
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 	}

@@ -14,7 +14,7 @@ import net.minecraftforge.common.Tags;
 // FIXME Use tag sizes for map init
 public final class SubWildLookups
 {
-	public static HashMap<Block, Block> STAIRS, SLABS, SPELEOS, FROZEN_SPELEOS, MOLTEN, MOSSY, WET, HOT;
+	public static HashMap<Block, Block> STAIRS, SLABS, SPELEOS, FROZEN_SPELEOS, MOLTEN, MOSSY, DEMOSSY, VANILLA_DEMOSSY, WET, HOT;
 
 	public static HashMap<Block, HashMap<Block, Block>> ORE_TABLE = new HashMap<>(13 + 5);
 
@@ -26,6 +26,8 @@ public final class SubWildLookups
 		FROZEN_SPELEOS = new HashMap<>(9 + 1 * 4); // 1 icicle and 4 tagged ice blocks
 		MOLTEN = new HashMap<>(11);
 		MOSSY = new HashMap<>(15);
+		DEMOSSY = new HashMap<>(15);
+		VANILLA_DEMOSSY = new HashMap<>(8);
 		WET = new HashMap<>(5);
 		HOT = new HashMap<>(11);
 
@@ -144,6 +146,16 @@ public final class SubWildLookups
 		MOSSY.put(Blocks.OBSIDIAN, SubWildBlocks.MOSSY_OBSIDIAN.get());
 		MOSSY.put(Blocks.BLACKSTONE, SubWildBlocks.MOSSY_BLACKSTONE.get());
 		MOSSY.put(Blocks.BASALT, SubWildBlocks.MOSSY_BASALT.get());
+		for(Map.Entry<Block, Block> entry : MOSSY.entrySet())
+			DEMOSSY.put(entry.getValue(), entry.getKey());
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_COBBLESTONE, Blocks.COBBLESTONE);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_COBBLESTONE_STAIRS, Blocks.COBBLESTONE_STAIRS);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_COBBLESTONE_SLAB, Blocks.COBBLESTONE_SLAB);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_COBBLESTONE_WALL, Blocks.COBBLESTONE_WALL);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_STONE_BRICKS, Blocks.STONE_BRICKS);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_STONE_BRICK_STAIRS, Blocks.STONE_BRICK_STAIRS);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_STONE_BRICK_SLAB, Blocks.STONE_BRICK_SLAB);
+		VANILLA_DEMOSSY.put(Blocks.MOSSY_STONE_BRICK_WALL, Blocks.STONE_BRICK_WALL);
 
 		WET.put(Blocks.STONE, SubWildBlocks.WET_STONE.get());
 		WET.put(Blocks.GRANITE, SubWildBlocks.WET_GRANITE.get());
