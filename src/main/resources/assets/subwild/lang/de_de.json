@@ -1,6 +1,10 @@
 {
 	"itemGroup.subwild": "Subterranean Wilderness Revival",
 	"config.subwild.title": "Subterranean Wilderness Revival Konfiguration",
+	"config.subwild.generate_cave_farmland": "Generate Cave Farmland",
+	"config.subwild.generate_cave_farmland.description": "Enable or disable the generation of Farmland patches in underground cave environments.",
+	"config.subwild.generate_cave_roots": "Generate Cave Roots",
+	"config.subwild.generate_cave_roots.description": "Enable or disable the generation of cave root features in underground cave environments.",
 
 	"block.subwild.dirt_stairs": "Erdetreppe",
 	"block.subwild.dirt_slab": "Erdestufe",

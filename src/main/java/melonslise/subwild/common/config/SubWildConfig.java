@@ -33,6 +33,8 @@ public final class SubWildConfig
 	private static final boolean DEFAULT_GENERATE_STAIRS = true;
 	private static final boolean DEFAULT_GENERATE_SLABS = true;
 	private static final boolean DEFAULT_GENERATE_PATCHES = true;
+	private static final boolean DEFAULT_GENERATE_CAVE_FARMLAND = true;
+	private static final boolean DEFAULT_GENERATE_CAVE_ROOTS = true;
 	private static final boolean DEFAULT_GENERATE_SPELEOTHEMS = true;
 	private static final boolean DEFAULT_GENERATE_FEATURES_IN_WATER = true;
 	private static final boolean DEFAULT_GENERATE_FOXFIRES = true;
@@ -82,7 +84,7 @@ public final class SubWildConfig
 
 	public static final ForgeConfigSpec.BooleanValue
 			EXPENSIVE_SCAN, ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES, GENERATE_BUTTONS, THROWABLE_PEBBLES, GENERATE_VINES, GENERATE_PUDDLES, GENERATE_STAIRS, GENERATE_SLABS,
-			GENERATE_PATCHES, GENERATE_SPELEOTHEMS, GENERATE_FEATURES_IN_WATER, GENERATE_FOXFIRES, GENERATE_SUBWILD_ORES, GENERATE_DEAD_BUSHES, GENERATE_LILYPADS,
+			GENERATE_PATCHES, GENERATE_CAVE_FARMLAND, GENERATE_CAVE_ROOTS, GENERATE_SPELEOTHEMS, GENERATE_FEATURES_IN_WATER, GENERATE_FOXFIRES, GENERATE_SUBWILD_ORES, GENERATE_DEAD_BUSHES, GENERATE_LILYPADS,
 			GENERATE_WALL_CORAL, GENERATE_DEAD_WALL_CORAL, GENERATE_FLOOR_CORAL, GENERATE_DEAD_FLOOR_CORAL,
 			GENERATE_SAPLINGS, GENERATE_IN_STRUCTURES, SHEAR_VANILLA_MOSSY_BLOCKS;
 	public static final ForgeConfigSpec.IntValue SLOPE_THRESHOLD, SLOPE_CHANCE, SLOPE_THRESHOLD_CHANCE;
@@ -123,6 +125,8 @@ public final class SubWildConfig
 			GENERATE_STAIRS = cfg.comment("Enable to generate stairs in cave biomes. Slope Generation Chance must also be above 0 for stairs to generate.").define("Generate Stairs", DEFAULT_GENERATE_STAIRS);
 			GENERATE_SLABS = cfg.comment("Enable to generate slabs in cave biomes. Slope Generation Chance must also be above 0 for slabs to generate.").define("Generate Slabs", DEFAULT_GENERATE_SLABS);
 			GENERATE_PATCHES = cfg.comment("Enable to generate patches (varying heights of slabs and snow) in cave biomes.").define("Generate Patches", DEFAULT_GENERATE_PATCHES);
+			GENERATE_CAVE_FARMLAND = cfg.comment("Enable or disable the generation of Farmland patches in underground cave environments.").define("Generate Cave Farmland", DEFAULT_GENERATE_CAVE_FARMLAND);
+			GENERATE_CAVE_ROOTS = cfg.comment("Enable or disable the generation of cave root features in underground cave environments.").define("Generate Cave Roots", DEFAULT_GENERATE_CAVE_ROOTS);
 			GENERATE_SPELEOTHEMS = cfg.comment("Enable to generate speleothems in cave biomes.").define("Generate Speleothems", DEFAULT_GENERATE_SPELEOTHEMS);
 			GENERATE_FEATURES_IN_WATER = cfg.comment("Allows waterloggable cave features like speleothems, slabs, and stairs to generate inside water-filled caves and cave lakes.").define("Generate Features in Water", DEFAULT_GENERATE_FEATURES_IN_WATER);
 			GENERATE_FOXFIRES = cfg.comment("Enable to generate glowing foxfires in cave biomes.").define("Generate Foxfires", DEFAULT_GENERATE_FOXFIRES);
@@ -469,6 +473,8 @@ public final class SubWildConfig
 		setAndSave(GENERATE_STAIRS, DEFAULT_GENERATE_STAIRS);
 		setAndSave(GENERATE_SLABS, DEFAULT_GENERATE_SLABS);
 		setAndSave(GENERATE_PATCHES, DEFAULT_GENERATE_PATCHES);
+		setAndSave(GENERATE_CAVE_FARMLAND, DEFAULT_GENERATE_CAVE_FARMLAND);
+		setAndSave(GENERATE_CAVE_ROOTS, DEFAULT_GENERATE_CAVE_ROOTS);
 		setAndSave(GENERATE_SPELEOTHEMS, DEFAULT_GENERATE_SPELEOTHEMS);
 		setAndSave(GENERATE_FEATURES_IN_WATER, DEFAULT_GENERATE_FEATURES_IN_WATER);
 		setAndSave(GENERATE_FOXFIRES, DEFAULT_GENERATE_FOXFIRES);

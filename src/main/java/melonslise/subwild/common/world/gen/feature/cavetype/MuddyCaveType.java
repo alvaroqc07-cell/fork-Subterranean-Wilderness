@@ -36,7 +36,10 @@ public class MuddyCaveType extends BasicCaveType
 					this.replaceBlock(world, pos, Blocks.TUFF.defaultBlockState());
 			}
 			else if(d > 0.4d)
-				this.replaceBlock(world, pos, Blocks.FARMLAND.defaultBlockState());
+			{
+				if(SubWildConfig.GENERATE_CAVE_FARMLAND.get())
+					this.replaceBlock(world, pos, Blocks.FARMLAND.defaultBlockState());
+			}
 			else if(d > -0.2d)
 				this.replaceBlock(world, pos, (rand.nextBoolean() ? Blocks.COARSE_DIRT : Blocks.DIRT).defaultBlockState());
 		}

@@ -177,6 +177,8 @@ public class SubWildConfigScreen extends Screen
 			this.featureToggle("Generate Stairs", "Enable stairs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_STAIRS),
 			this.featureToggle("Generate Slabs", "Enable slabs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_SLABS),
 			this.featureToggle("Generate Patches", "Enable patch generation in cave biomes.", SubWildConfig.GENERATE_PATCHES),
+			this.featureToggle(Component.translatable("config.subwild.generate_cave_farmland"), Component.translatable("config.subwild.generate_cave_farmland.description"), SubWildConfig.GENERATE_CAVE_FARMLAND),
+			this.featureToggle(Component.translatable("config.subwild.generate_cave_roots"), Component.translatable("config.subwild.generate_cave_roots.description"), SubWildConfig.GENERATE_CAVE_ROOTS),
 			this.featureToggle("Generate Speleothems", "Enable speleothems in cave biomes.", SubWildConfig.GENERATE_SPELEOTHEMS),
 			this.featureToggle("Generate Features in Water", "Allow speleothems, slabs, and stairs to generate in water-filled caves, cave lakes, and other flooded cave spaces.", SubWildConfig.GENERATE_FEATURES_IN_WATER),
 			this.featureToggle("Generate Foxfires", "Enable glowing foxfires in cave biomes.", SubWildConfig.GENERATE_FOXFIRES),
@@ -604,7 +606,12 @@ public class SubWildConfigScreen extends Screen
 
 	private FeatureToggleState featureToggle(String label, String description, ForgeConfigSpec.BooleanValue value)
 	{
-		return new FeatureToggleState(Component.literal(label), Component.literal(description), value.get(), newValue ->
+		return this.featureToggle(Component.literal(label), Component.literal(description), value);
+	}
+
+	private FeatureToggleState featureToggle(Component label, Component description, ForgeConfigSpec.BooleanValue value)
+	{
+		return new FeatureToggleState(label, description, value.get(), newValue ->
 		{
 			value.set(newValue);
 			value.save();
