@@ -14,12 +14,12 @@
 	"block.subwild.short_foxfire": "Short Foxfire Mushroom",
 	"block.subwild.long_foxfire": "Long Foxfire Mushroom",
 
-	"block.subwild.light_brown_roots": "Light Brown Roots",
-	"block.subwild.brown_roots": "Brown Roots",
-	"block.subwild.white_roots": "White Roots",
-	"block.subwild.light_orange_roots": "Light Orange Roots",
-	"block.subwild.dark_brown_roots": "Dark Brown Roots",
-	"block.subwild.orange_roots": "Orange Roots",
+	"block.subwild.light_brown_roots": "Hanging Light Brown Roots",
+	"block.subwild.brown_roots": "Hanging Brown Roots",
+	"block.subwild.white_roots": "Hanging White Roots",
+	"block.subwild.light_orange_roots": "Hanging Light Orange Roots",
+	"block.subwild.dark_brown_roots": "Hanging Dark Brown Roots",
+	"block.subwild.orange_roots": "Hanging Orange Roots",
 
 	"block.subwild.dirt_patch": "Dirt Patch",
 	"block.subwild.mossy_dirt_patch": "Mossy Dirt Patch",

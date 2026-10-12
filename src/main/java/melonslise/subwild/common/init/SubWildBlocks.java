@@ -37,6 +37,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 /*
  * 	Block#blocksMovement enables collision (note that older versions referenced Material flags here)
  */
@@ -55,19 +59,74 @@ public final class SubWildBlocks
 		SHORT_FOXFIRE = add("short_foxfire", () -> new FoxfireBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.NETHER_WART))),
 		LONG_FOXFIRE = add("long_foxfire", () -> new FoxfireBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.NETHER_WART))),
 
-		LIGHT_BROWN_ROOTS = add("light_brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
-		BROWN_ROOTS = add("brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
-		WHITE_ROOTS = add("white_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
-		LIGHT_ORANGE_ROOTS = add("light_orange_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
-		DARK_BROWN_ROOTS = add("dark_brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
-		ORANGE_ROOTS = add("orange_roots", () -> new RootsBlock(BlockBehaviour.Properties.of().noCollission().strength(0.1f).sound(SoundType.NETHER_WART))),
+		LIGHT_BROWN_ROOTS = add("light_brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
+		BROWN_ROOTS = add("brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
+		WHITE_ROOTS = add("white_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
+		LIGHT_ORANGE_ROOTS = add("light_orange_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
+		DARK_BROWN_ROOTS = add("dark_brown_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
+		ORANGE_ROOTS = add("orange_roots", () -> new RootsBlock(BlockBehaviour.Properties.of()
+				.mapColor(MapColor.DIRT)
+				.replaceable()
+				.noCollission()
+				.instabreak()
+				.sound(SoundType.HANGING_ROOTS)
+				.offsetType(BlockBehaviour.OffsetType.XZ)
+				.ignitedByLava()
+				.pushReaction(PushReaction.DESTROY)
+		)),
 
-		DIRT_PATCH = add("dirt_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).sound(SoundType.GRAVEL))),
-		MOSSY_DIRT_PATCH = add("mossy_dirt_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).sound(SoundType.WET_GRASS))),
-		PODZOL_PATCH = add("podzol_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).sound(SoundType.GRAVEL))),
-		GRAVEL_PATCH = add("gravel_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.15f).sound(SoundType.GRAVEL))),
-		SAND_PATCH = add("sand_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).sound(SoundType.SAND))),
-		RED_SAND_PATCH = add("red_sand_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).sound(SoundType.SAND))),
+		DIRT_PATCH = add("dirt_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).requiresCorrectToolForDrops().sound(SoundType.GRAVEL))),
+		MOSSY_DIRT_PATCH = add("mossy_dirt_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).requiresCorrectToolForDrops().sound(SoundType.WET_GRASS))),
+		PODZOL_PATCH = add("podzol_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).requiresCorrectToolForDrops().sound(SoundType.GRAVEL))),
+		GRAVEL_PATCH = add("gravel_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.15f).requiresCorrectToolForDrops().sound(SoundType.GRAVEL))),
+		SAND_PATCH = add("sand_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).requiresCorrectToolForDrops().sound(SoundType.SAND))),
+		RED_SAND_PATCH = add("red_sand_patch", () -> new PatchBlock(BlockBehaviour.Properties.of().strength(0.1f).requiresCorrectToolForDrops().sound(SoundType.SAND))),
+
 		ICE_PATCH = add("ice_patch", () -> new MeltingPatchBlock(BlockBehaviour.Properties.of().friction(0.98f).strength(0.1f).noOcclusion().sound(SoundType.GLASS))),
 		WATER_PUDDLE = add("water_puddle", () -> new PuddleBlock(BlockBehaviour.Properties.of().replaceable().noCollission().strength(0f).sound(SubWildSoundTypes.WATER))),
 		PEBBLE = add("pebble", () -> new PebbleBlock(BlockBehaviour.Properties.of().noCollission().strength(0f).sound(SoundType.STONE))),

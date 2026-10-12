@@ -53,7 +53,7 @@ public class EncasedSpeleothemBlock extends SpeleothemBlock implements ITransluc
 	}
 
 	@Override
-	public boolean canSupport(LevelReader world, BlockPos pos, BlockState state, BlockPos supPos, BlockState supState)
+	public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos)
 	{
 		return true;
 	}
@@ -65,11 +65,15 @@ public class EncasedSpeleothemBlock extends SpeleothemBlock implements ITransluc
 
 	public void melt(Level world, BlockPos pos, BlockState state)
 	{
-		world.removeBlock(pos, false);
+		world.setBlockAndUpdate(pos, SubWildUtil.copyStateProps(state, this.encased.get().defaultBlockState()));
 	}
 
 	@Override
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+	{}
+
+	@Override
+	public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
 	{
 		if(this.isHot(world, pos, state))
 			this.melt(world, pos, state);
