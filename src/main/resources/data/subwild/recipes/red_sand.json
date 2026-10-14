@@ -1,16 +1,21 @@
 {
-	"type": "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shapeless",
 	"category": "building",
-	"pattern": [
-		"##",
-		"##"
-	],
-	"key": {
-		"#": {
+	"ingredients": [
+		{
+			"item": "subwild:red_sand_pile"
+		},
+		{
+			"item": "subwild:red_sand_pile"
+		},
+		{
+			"item": "subwild:red_sand_pile"
+		},
+		{
 			"item": "subwild:red_sand_pile"
 		}
-	},
+	],
 	"result": {
-		"item": "minecraft:red_sand"
+		"id": "minecraft:red_sand"
 	}
 }

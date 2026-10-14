@@ -264,7 +264,7 @@ public final class SubWildSurfaceBiomeResolver
 
 	private static TagKey<Biome> tag(String namespace, String path)
 	{
-		return TagKey.create(Registries.BIOME, new ResourceLocation(namespace, path));
+		return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(namespace, path));
 	}
 
 	private enum SurfaceBiomeProfile

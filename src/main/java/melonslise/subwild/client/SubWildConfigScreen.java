@@ -21,7 +21,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class SubWildConfigScreen extends Screen
 {
@@ -88,14 +88,14 @@ public class SubWildConfigScreen extends Screen
 
 	private ResourceLocation getDefaultChoiceId()
 	{
-		return this.caveTypeChoices.isEmpty() ? new ResourceLocation("subwild", "basic") : this.caveTypeChoices.get(0).id();
+		return this.caveTypeChoices.isEmpty() ? ResourceLocation.fromNamespaceAndPath("subwild", "basic") : this.caveTypeChoices.get(0).id();
 	}
 
 	private ResourceLocation parseChoice(String value, ResourceLocation fallback)
 	{
 		try
 		{
-			ResourceLocation id = new ResourceLocation(value);
+			ResourceLocation id = ResourceLocation.parse(value);
 			return this.caveTypeChoiceLookup.containsKey(id) ? id : fallback;
 		}
 		catch(IllegalArgumentException ex)
@@ -177,8 +177,6 @@ public class SubWildConfigScreen extends Screen
 			this.featureToggle("Generate Stairs", "Enable stairs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_STAIRS),
 			this.featureToggle("Generate Slabs", "Enable slabs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_SLABS),
 			this.featureToggle("Generate Patches", "Enable patch generation in cave biomes.", SubWildConfig.GENERATE_PATCHES),
-			this.featureToggle(Component.translatable("config.subwild.generate_cave_farmland"), Component.translatable("config.subwild.generate_cave_farmland.description"), SubWildConfig.GENERATE_CAVE_FARMLAND),
-			this.featureToggle(Component.translatable("config.subwild.generate_cave_roots"), Component.translatable("config.subwild.generate_cave_roots.description"), SubWildConfig.GENERATE_CAVE_ROOTS),
 			this.featureToggle("Generate Speleothems", "Enable speleothems in cave biomes.", SubWildConfig.GENERATE_SPELEOTHEMS),
 			this.featureToggle("Generate Features in Water", "Allow speleothems, slabs, and stairs to generate in water-filled caves, cave lakes, and other flooded cave spaces.", SubWildConfig.GENERATE_FEATURES_IN_WATER),
 			this.featureToggle("Generate Foxfires", "Enable glowing foxfires in cave biomes.", SubWildConfig.GENERATE_FOXFIRES),
@@ -207,7 +205,7 @@ public class SubWildConfigScreen extends Screen
 	public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
 	{
 		this.tooltipRequest = null;
-		this.renderBackground(guiGraphics);
+		this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
 		super.render(guiGraphics, mouseX, mouseY, partialTick);
 		if(this.settingsList == null)
 			return;
@@ -296,7 +294,7 @@ public class SubWildConfigScreen extends Screen
 		{
 			this.setFocused(this.searchBox);
 			this.searchBox.setFocused(true);
-			this.searchBox.moveCursorToEnd();
+			this.searchBox.moveCursorToEnd(false);
 			this.refocusSearchAfterRebuild = false;
 		}
 	}
@@ -444,11 +442,11 @@ public class SubWildConfigScreen extends Screen
 	}
 
 	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double delta)
+	public boolean mouseScrolled(double mouseX, double mouseY, double deltaX, double deltaY)
 	{
 		this.cancelResetConfirmation();
 		this.clearFocusedInput();
-		return super.mouseScrolled(mouseX, mouseY, delta);
+		return super.mouseScrolled(mouseX, mouseY, deltaX, deltaY);
 	}
 
 	@Override
@@ -595,7 +593,7 @@ public class SubWildConfigScreen extends Screen
 		this.footerTopY = this.height - margin - 20;
 	}
 
-	private BoolOption boolOption(String label, String description, ForgeConfigSpec.BooleanValue value)
+	private BoolOption boolOption(String label, String description, ModConfigSpec.BooleanValue value)
 	{
 		return new BoolOption(Component.literal(label), Component.literal(description), value.get(), newValue ->
 		{
@@ -604,26 +602,21 @@ public class SubWildConfigScreen extends Screen
 		});
 	}
 
-	private FeatureToggleState featureToggle(String label, String description, ForgeConfigSpec.BooleanValue value)
+	private FeatureToggleState featureToggle(String label, String description, ModConfigSpec.BooleanValue value)
 	{
-		return this.featureToggle(Component.literal(label), Component.literal(description), value);
-	}
-
-	private FeatureToggleState featureToggle(Component label, Component description, ForgeConfigSpec.BooleanValue value)
-	{
-		return new FeatureToggleState(label, description, value.get(), newValue ->
+		return new FeatureToggleState(Component.literal(label), Component.literal(description), value.get(), newValue ->
 		{
 			value.set(newValue);
 			value.save();
 		});
 	}
 
-	private IntOption intOption(String label, String description, ForgeConfigSpec.IntValue value, int min, int max)
+	private IntOption intOption(String label, String description, ModConfigSpec.IntValue value, int min, int max)
 	{
 		return new IntOption(Component.literal(label), Component.literal(description), value, min, max);
 	}
 
-	private DoubleOption doubleOption(String label, String description, ForgeConfigSpec.DoubleValue value, double min, double max)
+	private DoubleOption doubleOption(String label, String description, ModConfigSpec.DoubleValue value, double min, double max)
 	{
 		return new DoubleOption(Component.literal(label), Component.literal(description), value, min, max);
 	}
@@ -710,11 +703,11 @@ public class SubWildConfigScreen extends Screen
 
 	private static final class IntOption extends TextOption
 	{
-		private final ForgeConfigSpec.IntValue value;
+		private final ModConfigSpec.IntValue value;
 		private final int min;
 		private final int max;
 
-		private IntOption(Component label, Component description, ForgeConfigSpec.IntValue value, int min, int max)
+		private IntOption(Component label, Component description, ModConfigSpec.IntValue value, int min, int max)
 		{
 			super(label, description, Integer.toString(value.get()));
 			this.value = value;
@@ -755,11 +748,11 @@ public class SubWildConfigScreen extends Screen
 
 	private static final class DoubleOption extends TextOption
 	{
-		private final ForgeConfigSpec.DoubleValue value;
+		private final ModConfigSpec.DoubleValue value;
 		private final double min;
 		private final double max;
 
-		private DoubleOption(Component label, Component description, ForgeConfigSpec.DoubleValue value, double min, double max)
+		private DoubleOption(Component label, Component description, ModConfigSpec.DoubleValue value, double min, double max)
 		{
 			super(label, description, Double.toString(value.get()));
 			this.value = value;
@@ -804,7 +797,7 @@ public class SubWildConfigScreen extends Screen
 	{
 		private UnifiedSettingsList(Minecraft minecraft, int width, int top, int bottom)
 		{
-			super(minecraft, width, SubWildConfigScreen.this.height, top, bottom, SETTINGS_LIST_ROW_HEIGHT);
+			super(minecraft, width, bottom - top, top, SETTINGS_LIST_ROW_HEIGHT);
 			this.addEntries();
 		}
 
@@ -1472,7 +1465,7 @@ public class SubWildConfigScreen extends Screen
 		@Override
 		public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick)
 		{
-			this.renderBackground(guiGraphics);
+			this.renderBackground(guiGraphics, mouseX, mouseY, partialTick);
 			super.render(guiGraphics, mouseX, mouseY, partialTick);
 			guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 16, 0xFFFFFF);
 		}
@@ -1487,7 +1480,7 @@ public class SubWildConfigScreen extends Screen
 		{
 			private CaveChoiceList(Minecraft minecraft, int width, int top, int bottom)
 			{
-				super(minecraft, width, CaveTypeSelectionScreen.this.height, top, bottom, 24);
+				super(minecraft, width, bottom - top, top, 24);
 				this.applyFilter(CaveTypeSelectionScreen.this.searchQuery);
 			}
 

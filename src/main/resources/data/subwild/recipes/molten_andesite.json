@@ -1,10 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        { "item": "minecraft:andesite" },
-        { "item": "minecraft:lava_bucket" }
-    ],
-    "result": {
-        "item": "subwild:molten_andesite"
-    }
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:andesite"
+                        },
+                        {
+                            "item":  "minecraft:lava_bucket"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:molten_andesite"
+               }
 }

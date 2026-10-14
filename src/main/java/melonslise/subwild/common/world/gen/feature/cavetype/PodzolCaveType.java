@@ -37,10 +37,7 @@ public class PodzolCaveType extends BasicCaveType
 					this.replaceBlock(world, pos, Blocks.MOSS_BLOCK.defaultBlockState());
 			}
 			else if(d > 0.7d)
-			{
-				if(SubWildConfig.GENERATE_CAVE_FARMLAND.get())
-					this.replaceBlock(world, pos, Blocks.FARMLAND.defaultBlockState());
-			}
+				this.replaceBlock(world, pos, Blocks.FARMLAND.defaultBlockState());
 			else if(d > 0.4d)
 				this.replaceBlock(world, pos, (rand.nextBoolean() ? Blocks.COARSE_DIRT : Blocks.DIRT).defaultBlockState());
 			else if(d > -0.2d)
@@ -69,7 +66,7 @@ public class PodzolCaveType extends BasicCaveType
 			if(this.getNoise(noise, pos, 0.1d) > 0.5d)
 				this.genBlock(world, pos, LushCaveType.PLANTS[(int) (this.getClampedNoise(noise, pos, 0.03125d) * (double) LushCaveType.PLANTS.length)].defaultBlockState());
 			if(rand.nextInt(34) == 0)
-				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
+				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 	}

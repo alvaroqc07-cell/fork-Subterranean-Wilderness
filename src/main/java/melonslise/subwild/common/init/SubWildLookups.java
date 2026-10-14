@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 // FIXME Use tag sizes for map init
 public final class SubWildLookups

@@ -3,6 +3,7 @@ package melonslise.subwild.common.world.gen.biome;
 import java.util.List;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import melonslise.subwild.common.config.SubWildConfig;
@@ -11,12 +12,11 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
 public record SubWildCaveDecoBiomeModifier(
 	List<Rule> rules,
@@ -32,7 +32,7 @@ public record SubWildCaveDecoBiomeModifier(
 		).apply(instance, Rule::new));
 	}
 
-	public static final Codec<SubWildCaveDecoBiomeModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+	public static final MapCodec<SubWildCaveDecoBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Rule.CODEC.listOf().fieldOf("rules").forGetter(SubWildCaveDecoBiomeModifier::rules),
 		RegistryFileCodec.create(Registries.PLACED_FEATURE, PlacedFeature.DIRECT_CODEC).listOf().fieldOf("default_features").forGetter(SubWildCaveDecoBiomeModifier::defaultFeatures),
 		Rule.CODEC.listOf().fieldOf("legacy_rules").forGetter(SubWildCaveDecoBiomeModifier::legacyRules),
@@ -44,7 +44,7 @@ public record SubWildCaveDecoBiomeModifier(
 	{
 		if(phase != Phase.ADD)
 			return;
-		if(!biome.is(BiomeTags.IS_OVERWORLD))
+		if(!biome.is(net.minecraft.tags.BiomeTags.IS_OVERWORLD))
 			return;
 
 		boolean adaptive = SubWildConfig.ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES.get();
@@ -67,7 +67,7 @@ public record SubWildCaveDecoBiomeModifier(
 	}
 
 	@Override
-	public Codec<? extends BiomeModifier> codec()
+	public MapCodec<? extends BiomeModifier> codec()
 	{
 		return CODEC;
 	}

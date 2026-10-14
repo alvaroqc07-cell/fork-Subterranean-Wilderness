@@ -7,7 +7,7 @@ import net.minecraft.world.level.WorldGenLevel;
 
 public class OpenSimplex2FNoise implements INoise
 {
-	public static final ResourceLocation ID = new ResourceLocation(SubWild.ID, "osn");
+	public static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(SubWild.ID, "osn");
 
 	public final OpenSimplex2F os2f;
 

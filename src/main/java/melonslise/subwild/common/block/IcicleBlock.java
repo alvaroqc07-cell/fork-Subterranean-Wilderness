@@ -1,20 +1,31 @@
 package melonslise.subwild.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class IcicleBlock extends SpeleothemBlock
 {
+	private static final MapCodec<IcicleBlock> CODEC = MapCodec.unit((IcicleBlock) null);
+
 	public IcicleBlock(Properties properties)
 	{
 		super(properties.randomTicks());
+	}
+
+	@Override
+	protected MapCodec<IcicleBlock> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	public boolean isHot(Level world, BlockPos pos, BlockState state)

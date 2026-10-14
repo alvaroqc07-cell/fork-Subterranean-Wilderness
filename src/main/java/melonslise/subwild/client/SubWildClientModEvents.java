@@ -8,29 +8,28 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-@Mod.EventBusSubscriber(modid = SubWild.ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = SubWild.ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class SubWildClientModEvents
 {
-	private static final int FALLBACK_WATER_COLOR = 0x3F76E4;
+	private static final int FALLBACK_WATER_COLOR = 0xFF3F76E4;
 
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
 		event.enqueueWork(() ->
 		{
-			ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-				() -> new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new SubWildConfigScreen(screen)));
-
+			ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
+				() -> (container, screen) -> new SubWildConfigScreen(screen));
 			EntityRenderers.register(SubWildEntities.PEBBLE_PROJECTILE.get(), ThrownItemRenderer::new);
-
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.SHORT_FOXFIRE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.LONG_FOXFIRE.get(), RenderType.cutout());
 			ItemBlockRenderTypes.setRenderLayer(SubWildBlocks.LIGHT_BROWN_ROOTS.get(), RenderType.cutout());
@@ -80,7 +79,7 @@ public final class SubWildClientModEvents
 				return 0xFFFFFFFF;
 			if(level == null || pos == null)
 				return FALLBACK_WATER_COLOR;
-			return BiomeColors.getAverageWaterColor(level, pos);
+			return BiomeColors.getAverageWaterColor(level, pos) | 0xFF000000;
 		}, SubWildBlocks.WATER_PUDDLE.get());
 	}
 

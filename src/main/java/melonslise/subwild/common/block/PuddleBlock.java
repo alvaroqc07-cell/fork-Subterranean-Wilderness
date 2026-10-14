@@ -1,5 +1,7 @@
 package melonslise.subwild.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,14 +14,21 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class PuddleBlock extends Block
 {
+	private static final MapCodec<PuddleBlock> CODEC = MapCodec.unit((PuddleBlock) null);
 	public PuddleBlock(Properties properties)
 	{
 		super(properties);
+	}
+
+	@Override
+	protected MapCodec<? extends Block> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override

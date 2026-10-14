@@ -4,14 +4,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import melonslise.subwild.common.config.SubWildConfig;
-import melonslise.subwild.common.init.SubWildCapabilities;
 import melonslise.subwild.common.init.SubWildPlacementModifiers;
+import melonslise.subwild.common.world.gen.SubWildNoise;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.StructureTags;
@@ -24,7 +22,6 @@ import net.minecraft.world.level.chunk.CarvingMask;
 import net.minecraft.world.level.chunk.ProtoChunk;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
@@ -32,7 +29,7 @@ import net.minecraft.util.RandomSource;
 
 public class CavePlacement extends PlacementModifier
 {
-	public static final Codec<CavePlacement> CODEC = Codec.unit(new CavePlacement());
+	public static final MapCodec<CavePlacement> CODEC = MapCodec.unit(new CavePlacement());
 	protected static final int MIN_SURFACE_COVER = 7;
 	protected static final int NEAR_SURFACE_COVER = 5;
 	protected static final int FAR_SURFACE_COVER = 3;
@@ -45,8 +42,9 @@ public class CavePlacement extends PlacementModifier
 	{
 		WorldGenLevel level = context.getLevel();
 		Level world = context.getLevel().getLevel();
-		if(!SubWildConfig.isAllowed(world) || !world.getCapability(SubWildCapabilities.NOISE_CAPABILITY).isPresent())
+		if(!SubWildConfig.isAllowed(world))
 			return Stream.empty();
+		SubWildNoise.get(world);
 		Set<BlockPos> set = new HashSet<>(1024);
 		ChunkAccess chunk = level.getChunk(pos);
 		StructureManager structureManager = this.getStructureManager(level);
@@ -88,12 +86,11 @@ public class CavePlacement extends PlacementModifier
 	{
 		if(SubWildConfig.GENERATE_IN_STRUCTURES.get() || structureManager == null || !chunk.hasAnyStructureReferences())
 			return true;
-		Registry<Structure> structureRegistry = structureManager.registryAccess().registryOrThrow(Registries.STRUCTURE);
-		for(Structure structure : chunk.getAllReferences().keySet())
+		for(var structure : chunk.getAllReferences().keySet())
 		{
 			if(!structureManager.getStructureWithPieceAt(pos, structure).isValid())
 				continue;
-			if(!structureRegistry.wrapAsHolder(structure).is(StructureTags.MINESHAFT))
+			if(!structureManager.getStructureWithPieceAt(pos, StructureTags.MINESHAFT).isValid())
 				return false;
 		}
 		return true;

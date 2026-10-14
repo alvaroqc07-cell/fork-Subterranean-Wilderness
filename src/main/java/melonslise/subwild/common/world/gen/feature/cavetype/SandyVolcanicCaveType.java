@@ -13,6 +13,7 @@ public class SandyVolcanicCaveType extends BasicCaveType
 {
 	protected static final double SANDY_VOLCANIC_BLACKSTONE_BLEND_SCALE = 0.09375d;
 	protected static final double SANDY_VOLCANIC_BLACKSTONE_BLEND_THRESHOLD = 0.20d;
+
 	public final boolean red;
 
 	public SandyVolcanicCaveType(String domain, String path, boolean red)

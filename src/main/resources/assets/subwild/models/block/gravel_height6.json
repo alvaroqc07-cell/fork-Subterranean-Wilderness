@@ -1,6 +1,7 @@
 {
-	"parent": "subwild:block/base/patch_height6",
-	"textures": {
+	"parent": "block/snow_height6",
+	"textures":
+	{
 		"particle": "block/gravel",
 		"texture": "block/gravel"
 	}

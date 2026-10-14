@@ -27,7 +27,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 public class BasicCaveType extends CaveType
 {
@@ -39,6 +39,7 @@ public class BasicCaveType extends CaveType
 	protected static final double VOLCANIC_CAVE_START_DEPTH = 0.8d;
 	protected static final int VOLCANIC_CAVE_TRANSITION = 6;
 
+	//  TODO Getters vs fields?
 	public ImmutableSet<Direction> dirs = ImmutableSet.of(Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.UP, Direction.DOWN);
 	public float floorCh = 2f, ceilCh = 3f;
 	public Supplier<Block>
@@ -136,7 +137,7 @@ public class BasicCaveType extends CaveType
 	@Override
 	public boolean canGenSide(WorldGenLevel world, BlockPos pos, BlockState state, float depth, int pass, Direction dir)
 	{
-		return pass == 0 && (state.is(Tags.Blocks.STONE) || state.is(BlockTags.DIRT) || state.is(Tags.Blocks.GRAVEL) || state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.COBBLED_DEEPSLATE) || state.is(Tags.Blocks.ORES);
+		return pass == 0 && (state.is(Tags.Blocks.STONES) || state.is(BlockTags.DIRT) || state.is(Tags.Blocks.GRAVELS) || state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.COBBLED_DEEPSLATE) || state.is(Tags.Blocks.ORES);
 	}
 
 	@Override
@@ -210,7 +211,7 @@ public class BasicCaveType extends CaveType
 		Block block = world.getBlockState(pos).getBlock();
 		if(this.isDeepPaletteBlock(block))
 			return;
-		if(block != Blocks.PRISMARINE && !block.defaultBlockState().is(BlockTags.CORAL_BLOCKS) && !block.defaultBlockState().is(BlockTags.ICE) && !block.defaultBlockState().is(Tags.Blocks.SANDSTONE) && !block.defaultBlockState().is(SubWildTags.TERRACOTTA) && !block.defaultBlockState().is(Tags.Blocks.SAND) && !block.defaultBlockState().is(Tags.Blocks.GRAVEL) && !block.defaultBlockState().is(BlockTags.DIRT) && !block.defaultBlockState().is(Tags.Blocks.STONE) && block != Blocks.DEEPSLATE && block != Blocks.COBBLED_DEEPSLATE)
+		if(block != Blocks.PRISMARINE && !block.defaultBlockState().is(BlockTags.CORAL_BLOCKS) && !block.defaultBlockState().is(BlockTags.ICE) && !block.defaultBlockState().is(Tags.Blocks.SANDSTONE_BLOCKS) && !block.defaultBlockState().is(SubWildTags.TERRACOTTA) && !block.defaultBlockState().is(Tags.Blocks.SANDS) && !block.defaultBlockState().is(Tags.Blocks.GRAVELS) && !block.defaultBlockState().is(BlockTags.DIRT) && !block.defaultBlockState().is(Tags.Blocks.STONES) && block != Blocks.DEEPSLATE && block != Blocks.COBBLED_DEEPSLATE)
 			return;
 		this.replaceBlock(world, pos, this.getGenericDeepBlock(noise, pos).defaultBlockState());
 	}
@@ -299,7 +300,7 @@ public class BasicCaveType extends CaveType
 	protected boolean isSubtleBlackstoneTarget(BlockState state)
 	{
 		Block block = state.getBlock();
-		return state.is(Tags.Blocks.STONE) || state.is(Tags.Blocks.SANDSTONE) || block == Blocks.DEEPSLATE || block == Blocks.COBBLED_DEEPSLATE || block == Blocks.TUFF || block == Blocks.CALCITE || block == Blocks.BASALT;
+		return state.is(Tags.Blocks.STONES) || state.is(Tags.Blocks.SANDSTONE_BLOCKS) || block == Blocks.DEEPSLATE || block == Blocks.COBBLED_DEEPSLATE || block == Blocks.TUFF || block == Blocks.CALCITE || block == Blocks.BASALT;
 	}
 
 	protected Block getSpeleothem(WorldGenLevel world, BlockPos pos, BlockState support)
@@ -335,7 +336,7 @@ public class BasicCaveType extends CaveType
 	public void genRandSpel(WorldGenLevel world, BlockPos pos, BlockState state, float depth, RandomSource rand)
 	{
 		double chance = SubWildConfig.getSpeleothemGenerationChance(state.getBlock());
-		if(SubWildConfig.GENERATE_SPELEOTHEMS.get() && chance > 0.0d && rand.nextFloat() < (float) (chance / 100.0d))
+		if(SubWildConfig.GENERATE_SPELEOTHEMS.get() && chance > 0.0d && rand.nextFloat() < (chance / 100.0f))
 			this.genSpel(world, pos, state, 1 + rand.nextInt(2) + rand.nextInt((int) (depth * 10f) + 1));
 	}
 

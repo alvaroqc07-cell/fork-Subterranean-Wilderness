@@ -9,7 +9,7 @@ import melonslise.subwild.common.init.SubWildBlocks;
 import melonslise.subwild.common.init.SubWildLookups;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.common.Tags;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -111,18 +111,13 @@ public class IcyCaveType extends BasicCaveType
 
 	private void replaceIcyBlock(WorldGenLevel world, BlockPos pos, double noise)
 	{
-		if (noise > 0.8d) {
+		if(noise > 0.8d)
 			this.replaceBlock(world, pos, Blocks.BLUE_ICE.defaultBlockState());
-		} else if (noise > 0.5d) {
-					BlockState stoneState = pos.getY() < 0
-					? Blocks.DEEPSLATE.defaultBlockState()
-					: Blocks.STONE.defaultBlockState();
-
-			this.replaceBlock(world, pos, stoneState);
-		} else if (noise > 0d) {
+		else if(noise > 0.6d)
 			this.replaceBlock(world, pos, Blocks.PACKED_ICE.defaultBlockState());
-		} else {
+		else if(noise > 0d)
+			this.replaceBlock(world, pos, Blocks.ICE.defaultBlockState());
+		else
 			this.replaceBlock(world, pos, Blocks.SNOW_BLOCK.defaultBlockState());
-		}
 	}
 }

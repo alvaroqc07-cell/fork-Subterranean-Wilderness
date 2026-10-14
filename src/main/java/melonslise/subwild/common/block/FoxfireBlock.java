@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.common.collect.Lists;
+import com.mojang.serialization.MapCodec;
 
 import melonslise.subwild.common.init.SubWildBlocks;
 import melonslise.subwild.common.init.SubWildProperties;
@@ -29,13 +30,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
-public class FoxfireBlock extends Block implements IPlantable
+public class FoxfireBlock extends Block
 {
+	private static final MapCodec<FoxfireBlock> CODEC = MapCodec.unit((FoxfireBlock) null);
 	public static final VoxelShape
 		SHAPE_NORTH = Block.box(5d, 5d, 10d, 11d, 11d, 16d),
 		SHAPE_EAST = Block.box(0d, 5d, 5d, 6d, 11d, 11d),
@@ -50,6 +50,12 @@ public class FoxfireBlock extends Block implements IPlantable
 	{
 		super(properties.randomTicks().lightLevel(state -> state.getValue(SubWildProperties.GLOWING) ? 4 : 0));
 		this.registerDefaultState(this.stateDefinition.any().setValue(SubWildProperties.GLOWING, false).setValue(BlockStateProperties.FACING, Direction.NORTH));
+	}
+
+	@Override
+	protected MapCodec<? extends Block> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override
@@ -154,21 +160,8 @@ public class FoxfireBlock extends Block implements IPlantable
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type)
+	protected boolean isPathfindable(BlockState state, PathComputationType type)
 	{
-		return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, world, pos, type);
-	}
-
-	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos)
-	{
-		return PlantType.CAVE;
-	}
-
-	@Override
-	public BlockState getPlant(BlockGetter world, BlockPos pos)
-	{
-		BlockState state = world.getBlockState(pos);
-		return state.getBlock() != this ? this.defaultBlockState() : state;
+		return type == PathComputationType.AIR && !this.hasCollision || super.isPathfindable(state, type);
 	}
 }

@@ -21,21 +21,21 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.pathfinder.PathComputationType;
-import net.minecraftforge.common.Tags;
+import net.minecraft.util.RandomSource;
+import net.neoforged.neoforge.common.Tags;
 
 public abstract class CaveType
 {
 	public static final Codec<CaveType> CODEC = RecordCodecBuilder.create(record -> record
 		.group(
 			Codec.STRING.fieldOf("name").forGetter(inst -> inst.name.toString()))
-		.apply(record, str -> SubWildFeatures.CAVE_TYPES.get(new ResourceLocation(str))));
+		.apply(record, str -> SubWildFeatures.CAVE_TYPES.get(ResourceLocation.parse(str))));
 
 	public final ResourceLocation name;
 
@@ -48,7 +48,7 @@ public abstract class CaveType
 
 	public CaveType(String domain, String path)
 	{
-		this(new ResourceLocation(domain, path));
+		this(ResourceLocation.fromNamespaceAndPath(domain, path));
 	}
 
 	public abstract void genFloor(WorldGenLevel world, INoise noise, BlockPos pos, float depth, int pass, RandomSource rand);
@@ -82,7 +82,7 @@ public abstract class CaveType
 
 	public boolean isNatural(WorldGenLevel world, BlockPos pos, BlockState state)
 	{
-		return state.is(Tags.Blocks.STONE) || state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.COBBLED_DEEPSLATE || state.getBlock() == Blocks.BLACKSTONE || state.getBlock() == Blocks.MAGMA_BLOCK || state.is(Tags.Blocks.COBBLESTONE) || state.is(BlockTags.CORAL_BLOCKS) || state.getBlock() == Blocks.SNOW_BLOCK || state.getBlock() == Blocks.PRISMARINE || state.is(BlockTags.ICE) || state.is(Tags.Blocks.SANDSTONE) || state.is(SubWildTags.TERRACOTTA) || state.is(Tags.Blocks.SAND) || state.is(Tags.Blocks.GRAVEL) || state.is(BlockTags.DIRT) || state.is(Tags.Blocks.OBSIDIAN);
+		return state.is(Tags.Blocks.STONES) || state.getBlock() == Blocks.DEEPSLATE || state.getBlock() == Blocks.COBBLED_DEEPSLATE || state.getBlock() == Blocks.BLACKSTONE || state.getBlock() == Blocks.MAGMA_BLOCK || state.is(Tags.Blocks.COBBLESTONES) || state.is(BlockTags.CORAL_BLOCKS) || state.getBlock() == Blocks.SNOW_BLOCK || state.getBlock() == Blocks.PRISMARINE || state.is(BlockTags.ICE) || state.is(Tags.Blocks.SANDSTONE_BLOCKS) || state.is(SubWildTags.TERRACOTTA) || state.is(Tags.Blocks.SANDS) || state.is(Tags.Blocks.GRAVELS) || state.is(BlockTags.DIRT) || state.is(Tags.Blocks.OBSIDIANS);
 	}
 
 	public boolean genBlock(WorldGenLevel world, BlockPos pos, BlockState state)
@@ -137,14 +137,12 @@ public abstract class CaveType
 
 	public void genRoots(WorldGenLevel world, INoise noise, BlockPos pos)
 	{
-		if(!SubWildConfig.GENERATE_CAVE_ROOTS.get())
-			return;
 		this.genBlock(world, pos, ROOTS[(int) (this.getClampedNoise(noise, pos, 0.0625d) * (double) ROOTS.length)].get().defaultBlockState());
 	}
 
 	public void genVines(WorldGenLevel world, BlockPos pos, Direction mainDir, int len)
 	{
-		if(!SubWildConfig.GENERATE_VINES.get())
+		if (!SubWildConfig.GENERATE_VINES.get())
 			return;
 
 		BlockPos.MutableBlockPos next = new BlockPos.MutableBlockPos().set(pos);
@@ -215,7 +213,7 @@ public abstract class CaveType
 		next.set(pos).move(-2, len, 0);
 		for(int a = 0; a < 8; ++a)
 		{
-			if(world.getBlockState(next).isPathfindable(world, next, PathComputationType.LAND))
+			if(world.getBlockState(next).isPathfindable(PathComputationType.LAND))
 				this.genBlock(world, next, Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState());
 			int i = a / 2;
 			next.move(i == 0 || i == 1 ? 1 : -1, 0, i == 0 || i == 3 ? 1 : -1);
@@ -223,12 +221,12 @@ public abstract class CaveType
 		next.set(pos).move(-1, len + 1, 0);
 		for(int a = 0; a < 4; ++a)
 		{
-			if(world.getBlockState(next).isPathfindable(world, next, PathComputationType.LAND))
+			if(world.getBlockState(next).isPathfindable(PathComputationType.LAND))
 				this.genBlock(world, next, Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState());
 			next.move(a == 0 || a == 1 ? 1 : -1, 0, a == 0 || a == 3 ? 1 : -1);
 		}
 		next.set(pos).move(0, len + 1, 0);
-		if(world.getBlockState(next).isPathfindable(world, next, PathComputationType.LAND))
+		if(world.getBlockState(next).isPathfindable(PathComputationType.LAND))
 			this.genBlock(world, next, Blocks.BROWN_MUSHROOM_BLOCK.defaultBlockState());
 	}
 
@@ -245,16 +243,19 @@ public abstract class CaveType
 			for(int b = 0; b < 2; ++b)
 			{
 				BlockPos next1 = next.offset(0, b, 0);
-				if(world.getBlockState(next1).isPathfindable(world, next1, PathComputationType.LAND))
+				if(world.getBlockState(next1).isPathfindable(PathComputationType.LAND))
 					this.genBlock(world, next1, Blocks.RED_MUSHROOM_BLOCK.defaultBlockState());
 			}
 			next.move(a == 0 || a == 1 ? 1 : -1, 0, a == 0 || a == 3 ? 1 : -1);
 		}
 		next.set(pos).move(0, len + 2, 0);
-		if(world.getBlockState(next).isPathfindable(world, next, PathComputationType.LAND))
+		if(world.getBlockState(next).isPathfindable(PathComputationType.LAND))
 			this.genBlock(world, next, Blocks.RED_MUSHROOM_BLOCK.defaultBlockState());
 	}
 
+	/**
+	 * Generally frequency means 1 / (number of blocks per feature). So for example a frequency of 1/8 or 0.125 means we are likely to get a feature every 8 tiles.
+	 */
 	public double getNoise(INoise noise, BlockPos pos, double frequency)
 	{
 		return noise.sample((double) pos.getX() * frequency, (double) pos.getY() * frequency, (double) pos.getZ() * frequency);

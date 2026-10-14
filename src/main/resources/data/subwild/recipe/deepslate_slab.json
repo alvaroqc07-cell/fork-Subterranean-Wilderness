@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:deepslate"
+        }
+    },
+    "result": {
+        "id": "subwild:deepslate_slab",
+        "count": 6
+    }
+}

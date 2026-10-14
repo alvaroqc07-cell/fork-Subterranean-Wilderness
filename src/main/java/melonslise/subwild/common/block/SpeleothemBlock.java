@@ -1,5 +1,7 @@
 package melonslise.subwild.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import melonslise.subwild.common.init.SubWildProperties;
 import melonslise.subwild.common.init.SubWildTags;
 import melonslise.subwild.common.util.SubWildUtil;
@@ -24,11 +26,13 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class SpeleothemBlock extends FallingBlock implements SimpleWaterloggedBlock
 {
+	private static final MapCodec<SpeleothemBlock> CODEC = MapCodec.unit((SpeleothemBlock) null);
+
 	public static final VoxelShape
 		SMALL_STALAGMITE_SHAPE = Block.box(7d, 0d, 7d, 9d, 6d, 9d),
 		SMALL_STALACTITE_SHAPE = Block.box(7d, 10d, 7d, 9d, 16d, 9d),
@@ -42,6 +46,12 @@ public class SpeleothemBlock extends FallingBlock implements SimpleWaterloggedBl
 	{
 		super(properties);
 		this.registerDefaultState(this.stateDefinition.any().setValue(BlockStateProperties.UP, false).setValue(BlockStateProperties.DOWN, false).setValue(SubWildProperties.VERTICAL_FACING, Direction.UP).setValue(BlockStateProperties.WATERLOGGED, false));
+	}
+
+	@Override
+	protected MapCodec<? extends FallingBlock> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override

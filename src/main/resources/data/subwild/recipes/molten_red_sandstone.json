@@ -5,6 +5,6 @@
         { "item": "minecraft:lava_bucket" }
     ],
     "result": {
-        "item": "subwild:molten_red_sandstone"
+        "id": "subwild:molten_red_sandstone"
     }
 }

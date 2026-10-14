@@ -1,17 +1,18 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"pattern": [
-		"#  ",
-		"## ",
-		"###"
-	],
-	"key": {
-		"#": {
-			"item": "minecraft:dirt"
-		}
-	},
-	"result": {
-		"item": "subwild:dirt_stairs",
-		"count": 4
-	}
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "pattern":  [
+                    "#  ",
+                    "## ",
+                    "###"
+                ],
+    "key":  {
+                "#":  {
+                          "item":  "minecraft:dirt"
+                      }
+            },
+    "result":  {
+                   "count":  4,
+                   "id":  "subwild:dirt_stairs"
+               }
 }

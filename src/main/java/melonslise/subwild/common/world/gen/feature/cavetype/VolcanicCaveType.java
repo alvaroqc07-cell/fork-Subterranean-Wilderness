@@ -1,10 +1,10 @@
 package melonslise.subwild.common.world.gen.feature.cavetype;
 
+import net.minecraft.util.RandomSource;
 import melonslise.subwild.common.capability.INoise;
 import melonslise.subwild.common.init.SubWildBlocks;
 import melonslise.subwild.common.init.SubWildLookups;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 

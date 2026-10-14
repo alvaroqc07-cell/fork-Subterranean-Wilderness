@@ -18,7 +18,7 @@ public class LushCaveType extends BasicCaveType
 	public static final Block[]
 		LEAVES = new Block[] { Blocks.DARK_OAK_LEAVES, Blocks.JUNGLE_LEAVES, Blocks.ACACIA_LEAVES, Blocks.OAK_LEAVES },
 		SAPLINGS = new Block[] { Blocks.DARK_OAK_SAPLING, Blocks.SPRUCE_SAPLING, Blocks.JUNGLE_SAPLING, Blocks.ACACIA_SAPLING, Blocks.OAK_SAPLING, Blocks.BIRCH_SAPLING },
-		PLANTS = new Block[] { Blocks.FERN, Blocks.GRASS }, // Blocks.LARGE_FERN, Blocks.TALL_GRASS
+		PLANTS = new Block[] { Blocks.FERN, Blocks.SHORT_GRASS }, // Blocks.LARGE_FERN, Blocks.TALL_GRASS
 		MUSHROOMS = new Block[] { Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM };
 
 	public LushCaveType(String domain, String path)
@@ -73,7 +73,7 @@ public class LushCaveType extends BasicCaveType
 			if(SubWildConfig.GENERATE_SAPLINGS.get() && rand.nextFloat() < (SubWildConfig.LUSH_SAPLINGS_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, SAPLINGS[rand.nextInt(SAPLINGS.length)].defaultBlockState());
 			else if(rand.nextInt(34) == 0)
-				this.genBlock(world, pos, MUSHROOMS[rand.nextInt(MUSHROOMS.length)].defaultBlockState());
+				world.setBlock(pos, MUSHROOMS[rand.nextInt(MUSHROOMS.length)].defaultBlockState(), 2);
 			if(this.getNoise(noise, pos, 0.1d) > -0.2d && rand.nextFloat() < (SubWildConfig.LUSH_LEAVES_CHANCE.get().floatValue() / 100.0f))
 				this.genBlock(world, pos, LEAVES[(int) (this.getClampedNoise(noise, pos, 0.015625d) * (double) LEAVES.length)].defaultBlockState().setValue(BlockStateProperties.PERSISTENT, true));
 			BlockPos up = pos.above();

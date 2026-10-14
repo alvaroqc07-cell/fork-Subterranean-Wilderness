@@ -1,10 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        { "item": "minecraft:blackstone" },
-        { "item": "minecraft:vine" }
-    ],
-    "result": {
-        "item": "subwild:mossy_blackstone"
-    }
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:blackstone"
+                        },
+                        {
+                            "item":  "minecraft:vine"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:mossy_blackstone"
+               }
 }

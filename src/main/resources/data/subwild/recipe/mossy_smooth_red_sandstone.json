@@ -1,0 +1,14 @@
+{
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:smooth_red_sandstone"
+                        },
+                        {
+                            "item":  "minecraft:vine"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:mossy_smooth_red_sandstone"
+               }
+}

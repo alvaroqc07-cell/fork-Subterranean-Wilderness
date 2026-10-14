@@ -1,16 +1,13 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "building",
-    "pattern": [
-        "###"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:red_sand"
-        }
-    },
-    "result": {
-        "item": "subwild:red_sand_patch",
-        "count": 6
-    }
+	"type": "minecraft:crafting_shapeless",
+	"category": "building",
+	"ingredients": [
+		{
+			"item": "minecraft:red_sand"
+		}
+	],
+	"result": {
+		"id": "subwild:red_sand_patch",
+		"count": 8
+	}
 }

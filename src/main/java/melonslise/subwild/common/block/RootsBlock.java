@@ -1,5 +1,7 @@
 package melonslise.subwild.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -13,11 +15,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class RootsBlock extends Block
 {
+	private static final MapCodec<RootsBlock> CODEC = MapCodec.unit((RootsBlock) null);
 	public static final VoxelShape SHAPE = Block.box(3d, 8d, 3d, 13d, 16d, 13d);
 
 	public RootsBlock(Properties properties)
 	{
 		super(properties);
+	}
+
+	@Override
+	protected MapCodec<? extends Block> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override

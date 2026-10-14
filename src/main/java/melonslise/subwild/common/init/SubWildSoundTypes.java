@@ -2,12 +2,12 @@ package melonslise.subwild.common.init;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraftforge.common.util.ForgeSoundType;
+import net.neoforged.neoforge.common.util.DeferredSoundType;
 
 public final class SubWildSoundTypes
 {
 	public static final SoundType WATER =
-			new ForgeSoundType(1f, 1f, () -> SoundEvents.GENERIC_SPLASH,
+			new DeferredSoundType(1f, 1f, () -> SoundEvents.GENERIC_SPLASH,
 					() -> SoundEvents.GENERIC_SWIM, () -> SoundEvents.GENERIC_SPLASH,
 					() -> SoundEvents.BOAT_PADDLE_WATER, () -> SoundEvents.GENERIC_SPLASH);
 }

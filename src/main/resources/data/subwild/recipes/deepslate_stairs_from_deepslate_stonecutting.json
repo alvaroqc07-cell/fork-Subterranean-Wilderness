@@ -1,9 +1,0 @@
-
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "minecraft:deepslate"
-  },
-  "result": "subwild:deepslate_stairs",
-  "count": 1
-}

@@ -14,8 +14,8 @@ public final class SubWildTags
 		FOXFIRE = wrapBlock("foxfire"),
 		SPELEOTHEMS = wrapBlock("speleothems"),
 
-		// Forge
-		TERRACOTTA = wrapBlock("forge", "terracotta");
+		// Common tags
+		TERRACOTTA = wrapBlock("c", "terracottas");
 
 	public static final TagKey<Item>
 		COAL_ORES = wrapItem("coal_ores"),
@@ -33,7 +33,7 @@ public final class SubWildTags
 
 	public static TagKey<Block> wrapBlock(String id, String name)
 	{
-		return TagKey.create(Registries.BLOCK, new ResourceLocation(id, name));
+		return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(id, name));
 	}
 
 	public static TagKey<Item> wrapItem(String name)
@@ -43,6 +43,6 @@ public final class SubWildTags
 
 	public static TagKey<Item> wrapItem(String id, String name)
 	{
-		return TagKey.create(Registries.ITEM, new ResourceLocation(id, name));
+		return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(id, name));
 	}
 }

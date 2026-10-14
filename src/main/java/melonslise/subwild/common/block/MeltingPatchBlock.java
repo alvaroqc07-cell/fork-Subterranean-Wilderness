@@ -2,6 +2,8 @@ package melonslise.subwild.common.block;
 
 import javax.annotation.Nullable;
 
+import com.mojang.serialization.MapCodec;
+
 import melonslise.subwild.common.init.SubWildBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -11,14 +13,23 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MeltingPatchBlock extends PatchBlock
 {
+	private static final MapCodec<MeltingPatchBlock> CODEC = MapCodec.unit((MeltingPatchBlock) null);
+
 	public MeltingPatchBlock(Properties properties)
 	{
 		super(properties.isValidSpawn((state, world, pos, type) -> type == EntityType.POLAR_BEAR));
+	}
+
+	@Override
+	protected MapCodec<MeltingPatchBlock> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override

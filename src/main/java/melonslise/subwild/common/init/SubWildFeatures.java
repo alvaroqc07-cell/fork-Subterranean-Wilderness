@@ -29,10 +29,9 @@ import melonslise.subwild.common.world.gen.feature.cavetype.VolcanicCaveType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class SubWildFeatures
 {
@@ -61,17 +60,17 @@ public final class SubWildFeatures
 		SANDY_RED_VOLCANIC_CAVE = addCaveType(new SandyVolcanicCaveType(SubWild.ID, "sandy_red_volcanic", true)),
 		CORAL_CAVE = addCaveType(new CoralCaveType(SubWild.ID, "coral"));
 
-	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, SubWild.ID);
+	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(net.minecraft.core.registries.BuiltInRegistries.FEATURE, SubWild.ID);
 
-	public static final RegistryObject<Feature<CaveRangeConfig>>
+	public static final DeferredHolder<Feature<?>, Feature<CaveRangeConfig>>
 		CAVE_DECO = add("cave", new CaveDecoFeature(CaveRangeConfig.CODEC));
 
-	public static void register()
+	public static void register(IEventBus modEventBus)
 	{
-		FEATURES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		FEATURES.register(modEventBus);
 	}
 
-	public static <T extends FeatureConfiguration> RegistryObject<Feature<T>> add(String name, Feature<T> feature)
+	public static <T extends FeatureConfiguration> DeferredHolder<Feature<?>, Feature<T>> add(String name, Feature<T> feature)
 	{
 		return FEATURES.register(name, () -> feature);
 	}

@@ -78,7 +78,7 @@ public class LushVolcanicCaveType extends BasicCaveType
 			if(SubWildConfig.GENERATE_SAPLINGS.get() && rand.nextFloat() < (SubWildConfig.LUSH_VOLCANIC_SAPLINGS_CHANCE.get().floatValue() / 100))
 				this.genBlock(world, pos, LushCaveType.SAPLINGS[rand.nextInt(LushCaveType.SAPLINGS.length)].defaultBlockState());
 			else if(rand.nextInt(45) == 0)
-				this.genBlock(world, pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState());
+				world.setBlock(pos, LushCaveType.MUSHROOMS[rand.nextInt(LushCaveType.MUSHROOMS.length)].defaultBlockState(), 2);
 		}
 		super.genFloorExtra(world, noise, pos, depth, pass, rand);
 		if(pass == 1)

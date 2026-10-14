@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -48,7 +47,6 @@ public class PebbleProjectile extends ThrowableItemProjectile
 	protected void onHitEntity(EntityHitResult result)
 	{
 		super.onHitEntity(result);
-
 		if(!this.level().isClientSide)
 		{
 			result.getEntity().hurt(this.damageSources().thrown(this, this.getOwner()), DAMAGE);
@@ -60,7 +58,6 @@ public class PebbleProjectile extends ThrowableItemProjectile
 	protected void onHitBlock(BlockHitResult result)
 	{
 		super.onHitBlock(result);
-
 		if(!this.level().isClientSide)
 			this.spawnImpactParticles(result.getLocation());
 	}
@@ -69,14 +66,13 @@ public class PebbleProjectile extends ThrowableItemProjectile
 	protected void onHit(HitResult result)
 	{
 		super.onHit(result);
-
 		if(!this.level().isClientSide)
 			this.discard();
 	}
 
 	private void spawnImpactParticles(Vec3 impactPos)
 	{
-		ItemStack stack = this.getItemRaw().isEmpty() ? this.getItem() : this.getItemRaw();
+		ItemStack stack = this.getItem();
 		Block particleBlock = stack.getItem() instanceof BlockItem blockItem ? blockItem.getBlock() : SubWildBlocks.PEBBLE.get();
 		((ServerLevel) this.level()).sendParticles(new BlockParticleOption(ParticleTypes.BLOCK, particleBlock.defaultBlockState()),
 			impactPos.x(), impactPos.y(), impactPos.z(), 8, 0.08d, 0.08d, 0.08d, 0.02d);

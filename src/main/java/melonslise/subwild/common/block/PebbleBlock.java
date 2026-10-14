@@ -1,10 +1,11 @@
 package melonslise.subwild.common.block;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,11 +22,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class PebbleBlock extends Block
 {
+	private static final MapCodec<PebbleBlock> CODEC = MapCodec.unit((PebbleBlock) null);
 	private static final VoxelShape SHAPE = Block.box(6d, 0d, 6d, 10d, 1d, 10d);
 
 	public PebbleBlock(Properties properties)
 	{
 		super(properties);
+	}
+
+	@Override
+	protected MapCodec<? extends Block> codec()
+	{
+		return CODEC.unit(this);
 	}
 
 	@Override
@@ -48,13 +56,14 @@ public class PebbleBlock extends Block
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit)
+	protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit)
 	{
 		if(!world.isClientSide)
 		{
 			ItemStack stack = new ItemStack(this.asItem());
 			if(player.addItem(stack))
-				world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2f, ((world.random.nextFloat() - world.random.nextFloat()) * 0.7f + 1.0f) * 2.0f);
+				world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2f,
+					((world.random.nextFloat() - world.random.nextFloat()) * 0.7f + 1.0f) * 2.0f);
 			else
 				popResource(world, pos, stack);
 			world.removeBlock(pos, false);

@@ -1,16 +1,13 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "building",
-    "pattern": [
-        "###"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:gravel"
-        }
-    },
-    "result": {
-        "item": "subwild:gravel_patch",
-        "count": 6
-    }
+	"type": "minecraft:crafting_shapeless",
+	"category": "building",
+	"ingredients": [
+		{
+			"item": "minecraft:gravel"
+		}
+	],
+	"result": {
+		"id": "subwild:gravel_patch",
+		"count": 8
+	}
 }

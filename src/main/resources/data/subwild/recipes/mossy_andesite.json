@@ -5,6 +5,6 @@
         { "item": "minecraft:vine" }
     ],
     "result": {
-        "item": "subwild:mossy_andesite"
+        "id": "subwild:mossy_andesite"
     }
 }

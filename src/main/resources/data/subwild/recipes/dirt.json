@@ -1,16 +1,21 @@
 {
-	"type": "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shapeless",
 	"category": "building",
-	"pattern": [
-		"##",
-		"##"
-	],
-	"key": {
-		"#": {
+	"ingredients": [
+		{
+			"item": "subwild:dirt_pile"
+		},
+		{
+			"item": "subwild:dirt_pile"
+		},
+		{
+			"item": "subwild:dirt_pile"
+		},
+		{
 			"item": "subwild:dirt_pile"
 		}
-	},
+	],
 	"result": {
-		"item": "minecraft:dirt"
+		"id": "minecraft:dirt"
 	}
 }

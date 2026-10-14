@@ -1,16 +1,33 @@
 {
-	"type": "minecraft:crafting_shaped",
+	"type": "minecraft:crafting_shapeless",
 	"category": "building",
-	"pattern": [
-		"##",
-		"##"
-	],
-	"key": {
-		"#": {
+	"ingredients": [
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
+			"item": "subwild:gravel_pile"
+		},
+		{
 			"item": "subwild:gravel_pile"
 		}
-	},
+	],
 	"result": {
-		"item": "minecraft:gravel"
+		"id": "minecraft:gravel"
 	}
 }

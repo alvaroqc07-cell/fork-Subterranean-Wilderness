@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 
 import melonslise.subwild.common.capability.INoise;
 import melonslise.subwild.common.config.SubWildConfig;
-import melonslise.subwild.common.init.SubWildCapabilities;
+import melonslise.subwild.common.world.gen.SubWildNoise;
 import melonslise.subwild.common.world.gen.feature.cavetype.CaveType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,7 +15,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class CaveDecoFeature extends Feature<CaveRangeConfig>
 {
@@ -46,7 +45,7 @@ public class CaveDecoFeature extends Feature<CaveRangeConfig>
 		CaveType type = resolvedType.type();
 		if(type == null)
 			return false;
-		INoise noise = world.getLevel().getCapability(SubWildCapabilities.NOISE_CAPABILITY).orElse(null);
+		INoise noise = SubWildNoise.get(world);
 		BlockPos.MutableBlockPos adjPos = new BlockPos.MutableBlockPos();
 		SubWildConfig.beginDeepTuffReplacementScope(resolvedType.replaceDeepTuff());
 		try
@@ -80,8 +79,7 @@ public class CaveDecoFeature extends Feature<CaveRangeConfig>
 							type.genWall(world, noise, adjPos, depth, pass, rand);
 							break;
 						}
-					BlockState centerState = world.getBlockState(pos);
-					if(type.canGenExtra(world, pos, centerState, adjPos, world.getBlockState(adjPos), depth, pass, dir))
+					if(type.canGenExtra(world, pos, world.getBlockState(pos), adjPos, world.getBlockState(adjPos), depth, pass, dir))
 						switch(dir)
 						{
 						case UP:

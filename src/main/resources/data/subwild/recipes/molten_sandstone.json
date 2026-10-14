@@ -1,10 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        { "item": "minecraft:sandstone" },
-        { "item": "minecraft:lava_bucket" }
-    ],
-    "result": {
-        "item": "subwild:molten_sandstone"
-    }
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:sandstone"
+                        },
+                        {
+                            "item":  "minecraft:lava_bucket"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:molten_sandstone"
+               }
 }

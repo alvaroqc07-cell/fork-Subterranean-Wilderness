@@ -1,10 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        { "item": "minecraft:basalt" },
-        { "item": "minecraft:vine" }
-    ],
-    "result": {
-        "item": "subwild:mossy_basalt"
-    }
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:basalt"
+                        },
+                        {
+                            "item":  "minecraft:vine"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:mossy_basalt"
+               }
 }

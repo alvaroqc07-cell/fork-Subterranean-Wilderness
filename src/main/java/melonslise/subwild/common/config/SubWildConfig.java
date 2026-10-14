@@ -17,11 +17,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public final class SubWildConfig
 {
-	public static final ForgeConfigSpec SPEC;
+	public static final ModConfigSpec SPEC;
 	private static final List<String> DEFAULT_DIMENSION_WHITELIST_VALUES = List.of("minecraft:overworld");
 	private static final boolean DEFAULT_EXPENSIVE_SCAN = true;
 	private static final boolean DEFAULT_ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES = true;
@@ -33,8 +33,6 @@ public final class SubWildConfig
 	private static final boolean DEFAULT_GENERATE_STAIRS = true;
 	private static final boolean DEFAULT_GENERATE_SLABS = true;
 	private static final boolean DEFAULT_GENERATE_PATCHES = true;
-	private static final boolean DEFAULT_GENERATE_CAVE_FARMLAND = true;
-	private static final boolean DEFAULT_GENERATE_CAVE_ROOTS = true;
 	private static final boolean DEFAULT_GENERATE_SPELEOTHEMS = true;
 	private static final boolean DEFAULT_GENERATE_FEATURES_IN_WATER = true;
 	private static final boolean DEFAULT_GENERATE_FOXFIRES = true;
@@ -82,13 +80,13 @@ public final class SubWildConfig
 	private static final double DEFAULT_LUSH_VOLCANIC_LEAVES_CHANCE = 65.00d;
 	private static final double DEFAULT_LUSH_VOLCANIC_SAPLINGS_CHANCE = 10.00d;
 
-	public static final ForgeConfigSpec.BooleanValue
+	public static final ModConfigSpec.BooleanValue
 			EXPENSIVE_SCAN, ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES, GENERATE_BUTTONS, THROWABLE_PEBBLES, GENERATE_VINES, GENERATE_PUDDLES, GENERATE_STAIRS, GENERATE_SLABS,
-			GENERATE_PATCHES, GENERATE_CAVE_FARMLAND, GENERATE_CAVE_ROOTS, GENERATE_SPELEOTHEMS, GENERATE_FEATURES_IN_WATER, GENERATE_FOXFIRES, GENERATE_SUBWILD_ORES, GENERATE_DEAD_BUSHES, GENERATE_LILYPADS,
+			GENERATE_PATCHES, GENERATE_SPELEOTHEMS, GENERATE_FEATURES_IN_WATER, GENERATE_FOXFIRES, GENERATE_SUBWILD_ORES, GENERATE_DEAD_BUSHES, GENERATE_LILYPADS,
 			GENERATE_WALL_CORAL, GENERATE_DEAD_WALL_CORAL, GENERATE_FLOOR_CORAL, GENERATE_DEAD_FLOOR_CORAL,
 			GENERATE_SAPLINGS, GENERATE_IN_STRUCTURES, SHEAR_VANILLA_MOSSY_BLOCKS;
-	public static final ForgeConfigSpec.IntValue SLOPE_THRESHOLD, SLOPE_CHANCE, SLOPE_THRESHOLD_CHANCE;
-	public static final ForgeConfigSpec.DoubleValue
+	public static final ModConfigSpec.IntValue SLOPE_THRESHOLD, SLOPE_CHANCE, SLOPE_THRESHOLD_CHANCE;
+	public static final ModConfigSpec.DoubleValue
 			GLOBAL_SPELEOTHEM_GENERATION_CHANCE, STONE_SPELEOTHEM_GENERATION_CHANCE, DEEPSLATE_SPELEOTHEM_GENERATION_CHANCE,
 			GRANITE_SPELEOTHEM_GENERATION_CHANCE, DIORITE_SPELEOTHEM_GENERATION_CHANCE, ANDESITE_SPELEOTHEM_GENERATION_CHANCE,
 			SANDSTONE_SPELEOTHEM_GENERATION_CHANCE, RED_SANDSTONE_SPELEOTHEM_GENERATION_CHANCE, OBSIDIAN_SPELEOTHEM_GENERATION_CHANCE,
@@ -98,11 +96,12 @@ public final class SubWildConfig
 			RED_SANDSTONE_PEBBLE_CHANCE, MESA_DEAD_BUSHES_CHANCE, SANDY_DEAD_BUSHES_CHANCE, SANDY_ROCKY_DEAD_BUSHES_CHANCE,
 			WATER_PUDDLE_GENERATION_CHANCE,
 			LUSH_LILYPADS_CHANCE, LUSH_LEAVES_CHANCE, MOSSY_LILYPADS_CHANCE, MOSSY_ROCKY_LILYPADS_CHANCE, LUSH_SAPLINGS_CHANCE,
-			LUSH_VOLCANIC_LEAVES_CHANCE, LUSH_VOLCANIC_SAPLINGS_CHANCE;
-	public static final ForgeConfigSpec.ConfigValue<List<? extends String>> DIMENSION_WHITELIST;
-	public static final ForgeConfigSpec.BooleanValue GLOBAL_REPLACE_ALL_CAVE_TYPES;
-	public static final ForgeConfigSpec.BooleanValue GLOBAL_REPLACE_DEEP_TUFF_CAVES;
-	public static final ForgeConfigSpec.ConfigValue<String> GLOBAL_REPLACEMENT_CAVE_TYPE;
+			LUSH_VOLCANIC_LEAVES_CHANCE,
+			LUSH_VOLCANIC_SAPLINGS_CHANCE;
+	public static final ModConfigSpec.ConfigValue<List<? extends String>> DIMENSION_WHITELIST;
+	public static final ModConfigSpec.BooleanValue GLOBAL_REPLACE_ALL_CAVE_TYPES;
+	public static final ModConfigSpec.BooleanValue GLOBAL_REPLACE_DEEP_TUFF_CAVES;
+	public static final ModConfigSpec.ConfigValue<String> GLOBAL_REPLACEMENT_CAVE_TYPE;
 	public static final List<CaveTypeChoice> CAVE_TYPE_CHOICES;
 	public static final List<CaveTypeToggle> CAVE_TYPE_OPTIONS;
 	public static final Map<ResourceLocation, CaveTypeToggle> CAVE_TYPE_TOGGLES;
@@ -110,7 +109,7 @@ public final class SubWildConfig
 
 	static
 	{
-		final ForgeConfigSpec.Builder cfg = new ForgeConfigSpec.Builder();
+		final ModConfigSpec.Builder cfg = new ModConfigSpec.Builder();
 
 		EXPENSIVE_SCAN = cfg.comment("Scans additional underground cave spaces to improve terrain generation compatibility at a lower performance cost (may drastically reduce cave feature generation in large caves).").define("Expensive Scan", DEFAULT_EXPENSIVE_SCAN);
 		ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES = cfg.comment("Adapts SubWild cave selection to the biome above the cave so modded surface biomes can use matching cave themes. Disable this to use the older tagged-biome behavior and rocky fallback.").define("Adapt Cave Biomes to Modded Biomes", DEFAULT_ADAPT_CAVE_BIOMES_TO_MODDED_BIOMES);
@@ -125,8 +124,6 @@ public final class SubWildConfig
 			GENERATE_STAIRS = cfg.comment("Enable to generate stairs in cave biomes. Slope Generation Chance must also be above 0 for stairs to generate.").define("Generate Stairs", DEFAULT_GENERATE_STAIRS);
 			GENERATE_SLABS = cfg.comment("Enable to generate slabs in cave biomes. Slope Generation Chance must also be above 0 for slabs to generate.").define("Generate Slabs", DEFAULT_GENERATE_SLABS);
 			GENERATE_PATCHES = cfg.comment("Enable to generate patches (varying heights of slabs and snow) in cave biomes.").define("Generate Patches", DEFAULT_GENERATE_PATCHES);
-			GENERATE_CAVE_FARMLAND = cfg.comment("Enable or disable the generation of Farmland patches in underground cave environments.").define("Generate Cave Farmland", DEFAULT_GENERATE_CAVE_FARMLAND);
-			GENERATE_CAVE_ROOTS = cfg.comment("Enable or disable the generation of cave root features in underground cave environments.").define("Generate Cave Roots", DEFAULT_GENERATE_CAVE_ROOTS);
 			GENERATE_SPELEOTHEMS = cfg.comment("Enable to generate speleothems in cave biomes.").define("Generate Speleothems", DEFAULT_GENERATE_SPELEOTHEMS);
 			GENERATE_FEATURES_IN_WATER = cfg.comment("Allows waterloggable cave features like speleothems, slabs, and stairs to generate inside water-filled caves and cave lakes.").define("Generate Features in Water", DEFAULT_GENERATE_FEATURES_IN_WATER);
 			GENERATE_FOXFIRES = cfg.comment("Enable to generate glowing foxfires in cave biomes.").define("Generate Foxfires", DEFAULT_GENERATE_FOXFIRES);
@@ -231,17 +228,17 @@ public final class SubWildConfig
 	{
 	}
 
-	private static CaveTypeToggleSet createCaveTypeToggles(ForgeConfigSpec.Builder cfg)
+	private static CaveTypeToggleSet createCaveTypeToggles(ModConfigSpec.Builder cfg)
 	{
 		List<CaveType> caveTypes = new ArrayList<>(SubWildFeatures.CAVE_TYPES.values());
 		caveTypes.sort(Comparator.comparing(type -> humanizeCaveTypeName(type.name.getPath())));
 
 		cfg.push("Global");
-		ForgeConfigSpec.BooleanValue globalReplaceAll = cfg.comment("Replace every SubWild cave type with the selected cave type. This overrides individual cave type settings.")
+		ModConfigSpec.BooleanValue globalReplaceAll = cfg.comment("Replace every SubWild cave type with the selected cave type. This overrides individual cave type settings.")
 			.define("Replace All Cave Types", DEFAULT_GLOBAL_REPLACE_ALL_CAVE_TYPES);
-		ForgeConfigSpec.BooleanValue globalReplaceDeepTuff = cfg.comment("Extends the selected replacement cave type through all lower cave layers down to bedrock.")
+		ModConfigSpec.BooleanValue globalReplaceDeepTuff = cfg.comment("Extends the selected replacement cave type through all lower cave layers down to bedrock.")
 			.define("Replace Deep/Tuff Caves", DEFAULT_GLOBAL_REPLACE_DEEP_TUFF_CAVES);
-		ForgeConfigSpec.ConfigValue<String> globalReplacementTarget = cfg.comment("The cave type used when the global replace-all setting is enabled.")
+		ModConfigSpec.ConfigValue<String> globalReplacementTarget = cfg.comment("The cave type used when the global replace-all setting is enabled.")
 			.define("Replacement Cave Type", SubWildFeatures.BASIC_CAVE.name.toString());
 		cfg.pop();
 
@@ -255,11 +252,11 @@ public final class SubWildConfig
 			choices.add(choice);
 
 			cfg.push(label);
-			ForgeConfigSpec.EnumValue<CaveTypeMode> mode = cfg.comment("How " + label + " should behave when selected by SubWild world generation.")
+			ModConfigSpec.EnumValue<CaveTypeMode> mode = cfg.comment("How " + label + " should behave when selected by SubWild world generation.")
 				.defineEnum("Mode", CaveTypeMode.ON);
-			ForgeConfigSpec.BooleanValue affectDeepTuff = cfg.comment("Extends " + label + " through all lower cave layers down to bedrock when it replaces another cave type.")
+			ModConfigSpec.BooleanValue affectDeepTuff = cfg.comment("Extends " + label + " through all lower cave layers down to bedrock when it replaces another cave type.")
 				.define("Affect Deep/Tuff Caves", DEFAULT_CAVE_REPLACE_DEEP_TUFF_CAVES);
-			ForgeConfigSpec.ConfigValue<String> replacementTarget = cfg.comment("The cave type used when " + label + " is disabled and set to replace with another SubWild cave type.")
+			ModConfigSpec.ConfigValue<String> replacementTarget = cfg.comment("The cave type used when " + label + " is disabled and set to replace with another SubWild cave type.")
 				.define("Replacement Cave Type", type.name.toString());
 			cfg.pop();
 
@@ -332,7 +329,7 @@ public final class SubWildConfig
 		return GLOBAL_SPELEOTHEM_GENERATION_CHANCE.get();
 	}
 
-	private static double resolveSpeleothemGenerationChance(ForgeConfigSpec.DoubleValue value)
+	private static double resolveSpeleothemGenerationChance(ModConfigSpec.DoubleValue value)
 	{
 		double chance = value.get();
 		return chance < 0.00d ? GLOBAL_SPELEOTHEM_GENERATION_CHANCE.get() : chance;
@@ -441,7 +438,7 @@ public final class SubWildConfig
 	{
 		try
 		{
-			return SubWildFeatures.CAVE_TYPES.get(new ResourceLocation(name));
+			return SubWildFeatures.CAVE_TYPES.get(ResourceLocation.parse(name));
 		}
 		catch(IllegalArgumentException ex)
 		{
@@ -473,8 +470,6 @@ public final class SubWildConfig
 		setAndSave(GENERATE_STAIRS, DEFAULT_GENERATE_STAIRS);
 		setAndSave(GENERATE_SLABS, DEFAULT_GENERATE_SLABS);
 		setAndSave(GENERATE_PATCHES, DEFAULT_GENERATE_PATCHES);
-		setAndSave(GENERATE_CAVE_FARMLAND, DEFAULT_GENERATE_CAVE_FARMLAND);
-		setAndSave(GENERATE_CAVE_ROOTS, DEFAULT_GENERATE_CAVE_ROOTS);
 		setAndSave(GENERATE_SPELEOTHEMS, DEFAULT_GENERATE_SPELEOTHEMS);
 		setAndSave(GENERATE_FEATURES_IN_WATER, DEFAULT_GENERATE_FEATURES_IN_WATER);
 		setAndSave(GENERATE_FOXFIRES, DEFAULT_GENERATE_FOXFIRES);
@@ -531,7 +526,7 @@ public final class SubWildConfig
 		setAndSave(LUSH_VOLCANIC_SAPLINGS_CHANCE, DEFAULT_LUSH_VOLCANIC_SAPLINGS_CHANCE);
 	}
 
-	private static <T> void setAndSave(ForgeConfigSpec.ConfigValue<T> value, T defaultValue)
+	private static <T> void setAndSave(ModConfigSpec.ConfigValue<T> value, T defaultValue)
 	{
 		value.set(defaultValue);
 		value.save();
@@ -550,17 +545,17 @@ public final class SubWildConfig
 		ResourceLocation id,
 		String label,
 		String description,
-		ForgeConfigSpec.EnumValue<CaveTypeMode> mode,
-		ForgeConfigSpec.BooleanValue affectDeepTuff,
-		ForgeConfigSpec.ConfigValue<String> replacementTarget)
+		ModConfigSpec.EnumValue<CaveTypeMode> mode,
+		ModConfigSpec.BooleanValue affectDeepTuff,
+		ModConfigSpec.ConfigValue<String> replacementTarget)
 	{}
 
 	public record ResolvedCaveType(CaveType type, boolean replaceDeepTuff) {}
 
 	private record CaveTypeToggleSet(
-		ForgeConfigSpec.BooleanValue globalReplaceAll,
-		ForgeConfigSpec.BooleanValue globalReplaceDeepTuff,
-		ForgeConfigSpec.ConfigValue<String> globalReplacementTarget,
+		ModConfigSpec.BooleanValue globalReplaceAll,
+		ModConfigSpec.BooleanValue globalReplaceDeepTuff,
+		ModConfigSpec.ConfigValue<String> globalReplacementTarget,
 		List<CaveTypeChoice> choices,
 		List<CaveTypeToggle> options,
 		Map<ResourceLocation, CaveTypeToggle> values)

@@ -1,16 +1,13 @@
 {
-    "type": "minecraft:crafting_shaped",
-    "category": "building",
-    "pattern": [
-        "##"
-    ],
-    "key": {
-        "#": {
-            "item": "minecraft:dirt"
-        }
-    },
-    "result": {
-        "item": "subwild:dirt_patch",
-        "count": 4
-    }
+	"type": "minecraft:crafting_shapeless",
+	"category": "building",
+	"ingredients": [
+		{
+			"item": "minecraft:dirt"
+		}
+	],
+	"result": {
+		"id": "subwild:dirt_patch",
+		"count": 8
+	}
 }

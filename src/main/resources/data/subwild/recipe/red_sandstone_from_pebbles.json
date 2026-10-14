@@ -1,0 +1,16 @@
+{
+    "type":  "minecraft:crafting_shaped",
+    "category":  "building",
+    "pattern":  [
+                    "##",
+                    "##"
+                ],
+    "key":  {
+                "#":  {
+                          "item":  "subwild:red_sandstone_pebble"
+                      }
+            },
+    "result":  {
+                   "id":  "minecraft:red_sandstone"
+               }
+}

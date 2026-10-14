@@ -1,5 +1,5 @@
 {
 	"parent": "subwild:block/base/tinted_puddle",
 	"textures":
-	{ "all": "block/water_still" }
+	{ "all": "minecraft:block/water_still" }
 }

@@ -1,9 +1,14 @@
 package melonslise.subwild.common.block;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
+import com.mojang.serialization.MapCodec;
+
+import melonslise.subwild.common.util.SubWildLootHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -13,17 +18,19 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 // FIXME  add Silk touch pickup (new)? and noDrops in props?
 
 public class PatchBlock extends Block
 {
+	private static final MapCodec<PatchBlock> CODEC = MapCodec.unit((PatchBlock) null);
 	public static final VoxelShape[] SHAPES = new VoxelShape[]
 	{
 		Shapes.empty(),
@@ -44,6 +51,12 @@ public class PatchBlock extends Block
 	}
 
 	@Override
+	protected MapCodec<? extends Block> codec()
+	{
+		return CODEC.unit(this);
+	}
+
+	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext ctx)
 	{
 		return SHAPES[state.getValue(BlockStateProperties.LAYERS)];
@@ -56,7 +69,7 @@ public class PatchBlock extends Block
 	}
 
 	@Override
-	public boolean isPathfindable(BlockState state, BlockGetter world, BlockPos pos, PathComputationType type)
+	protected boolean isPathfindable(BlockState state, PathComputationType type)
 	{
 		switch (type)
 		{
@@ -114,6 +127,12 @@ public class PatchBlock extends Block
 			return true;
 		}
 		return layer == 1;
+	}
+
+	@Override
+	protected List<ItemStack> getDrops(BlockState state, LootParams.Builder builder)
+	{
+		return SubWildLootHelper.getPatchDrops(state, builder, state.getValue(BlockStateProperties.LAYERS));
 	}
 
 	@OnlyIn(Dist.CLIENT)

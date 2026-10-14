@@ -1,10 +1,14 @@
 {
-    "type": "minecraft:crafting_shapeless",
-    "ingredients": [
-        { "item": "minecraft:diorite" },
-        { "item": "minecraft:vine" }
-    ],
-    "result": {
-        "item": "subwild:mossy_diorite"
-    }
+    "type":  "minecraft:crafting_shapeless",
+    "ingredients":  [
+                        {
+                            "item":  "minecraft:diorite"
+                        },
+                        {
+                            "item":  "minecraft:vine"
+                        }
+                    ],
+    "result":  {
+                   "id":  "subwild:mossy_diorite"
+               }
 }

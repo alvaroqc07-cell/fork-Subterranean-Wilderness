@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "minecraft:deepslate"
-  },
-  "result": "subwild:deepslate_slab",
-  "count": 2
-}

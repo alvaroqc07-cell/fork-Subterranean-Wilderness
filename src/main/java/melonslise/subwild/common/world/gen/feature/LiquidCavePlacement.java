@@ -4,11 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 
 import melonslise.subwild.common.config.SubWildConfig;
-import melonslise.subwild.common.init.SubWildCapabilities;
 import melonslise.subwild.common.init.SubWildPlacementModifiers;
+import melonslise.subwild.common.world.gen.SubWildNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -26,15 +26,16 @@ import net.minecraft.util.RandomSource;
 
 public class LiquidCavePlacement extends CavePlacement
 {
-	public static final Codec<LiquidCavePlacement> CODEC = Codec.unit(new LiquidCavePlacement());
+	public static final MapCodec<LiquidCavePlacement> CODEC = MapCodec.unit(new LiquidCavePlacement());
 
 	@Override
 	public Stream<BlockPos> getPositions(PlacementContext context, RandomSource rand, BlockPos pos)
 	{
 		WorldGenLevel level = context.getLevel();
 		Level world = context.getLevel().getLevel();
-		if(!SubWildConfig.isAllowed(world) || !world.getCapability(SubWildCapabilities.NOISE_CAPABILITY).isPresent())
+		if(!SubWildConfig.isAllowed(world))
 			return Stream.empty();
+		SubWildNoise.get(world);
 		ChunkAccess chunk = level.getChunk(pos);
 		StructureManager structureManager = this.getStructureManager(level);
 		ChunkPos chPos = chunk.getPos();

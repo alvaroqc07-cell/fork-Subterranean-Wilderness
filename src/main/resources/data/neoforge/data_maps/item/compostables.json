@@ -1,0 +1,28 @@
+{
+  "values": {
+    "subwild:light_brown_roots": {
+      "chance": 0.3
+    },
+    "subwild:brown_roots": {
+      "chance": 0.3
+    },
+    "subwild:white_roots": {
+      "chance": 0.3
+    },
+    "subwild:light_orange_roots": {
+      "chance": 0.3
+    },
+    "subwild:dark_brown_roots": {
+      "chance": 0.3
+    },
+    "subwild:orange_roots": {
+      "chance": 0.3
+    },
+    "subwild:short_foxfire": {
+      "chance": 0.65
+    },
+    "subwild:long_foxfire": {
+      "chance": 0.65
+    }
+  }
+}
