@@ -113,7 +113,7 @@ public class IcyCaveType extends BasicCaveType
 	{
 		if (noise > 0.8d) {
 			this.replaceBlock(world, pos, Blocks.BLUE_ICE.defaultBlockState());
-		} else if (noise > 0.5d) {
+		} else if (noise > 0.4d) {
 					BlockState stoneState = pos.getY() < 0
 					? Blocks.DEEPSLATE.defaultBlockState()
 					: Blocks.STONE.defaultBlockState();
