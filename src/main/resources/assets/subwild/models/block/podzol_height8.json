@@ -1,7 +1,6 @@
 {
-	"parent": "block/snow_height8",
-	"textures":
-	{
+	"parent": "subwild:block/base/patch_height8",
+	"textures": {
 		"particle": "block/podzol_top",
 		"texture": "block/podzol_top"
 	}

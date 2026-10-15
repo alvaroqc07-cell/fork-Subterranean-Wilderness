@@ -117,14 +117,10 @@ public class IcyRockyCaveType extends BasicCaveType
 			this.replaceBlock(world, pos, Blocks.BLUE_ICE.defaultBlockState());
 		else if(noise > 0.8d)
 			this.replaceBlock(world, pos, Blocks.PACKED_ICE.defaultBlockState());
-		else if(noise > 0.3d)
-			this.replaceBlock(world, pos, Blocks.ICE.defaultBlockState());
 		else if(noise > -0.15d)
 			this.replaceBlock(world, pos, Blocks.SNOW_BLOCK.defaultBlockState());
 		else if(noise > -0.65d)
-		{
-			// Keep the stone pocket when there is no ore to convert.
-		}
+		{}
 		else if(noise > -0.85d)
 			this.replaceBlock(world, pos, Blocks.GRAVEL.defaultBlockState());
 		else

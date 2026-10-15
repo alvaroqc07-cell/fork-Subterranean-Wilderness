@@ -137,6 +137,8 @@ public abstract class CaveType
 
 	public void genRoots(WorldGenLevel world, INoise noise, BlockPos pos)
 	{
+		if(!SubWildConfig.GENERATE_CAVE_ROOTS.get())
+			return;
 		this.genBlock(world, pos, ROOTS[(int) (this.getClampedNoise(noise, pos, 0.0625d) * (double) ROOTS.length)].get().defaultBlockState());
 	}
 

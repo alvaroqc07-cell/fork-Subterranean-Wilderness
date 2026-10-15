@@ -177,6 +177,8 @@ public class SubWildConfigScreen extends Screen
 			this.featureToggle("Generate Stairs", "Enable stairs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_STAIRS),
 			this.featureToggle("Generate Slabs", "Enable slabs in cave biomes. Slope Generation Chance must be above 0.", SubWildConfig.GENERATE_SLABS),
 			this.featureToggle("Generate Patches", "Enable patch generation in cave biomes.", SubWildConfig.GENERATE_PATCHES),
+			this.featureToggle("Generate Farmland", "Enable farmland generation in cave biomes.", SubWildConfig.GENERATE_CAVE_FARMLAND),
+			this.featureToggle("Generate Roots", "Enable roots generation in cave biomes.", SubWildConfig.GENERATE_CAVE_ROOTS),
 			this.featureToggle("Generate Speleothems", "Enable speleothems in cave biomes.", SubWildConfig.GENERATE_SPELEOTHEMS),
 			this.featureToggle("Generate Features in Water", "Allow speleothems, slabs, and stairs to generate in water-filled caves, cave lakes, and other flooded cave spaces.", SubWildConfig.GENERATE_FEATURES_IN_WATER),
 			this.featureToggle("Generate Foxfires", "Enable glowing foxfires in cave biomes.", SubWildConfig.GENERATE_FOXFIRES),
