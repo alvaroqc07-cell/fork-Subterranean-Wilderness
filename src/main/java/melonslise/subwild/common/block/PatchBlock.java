@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -25,17 +27,17 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class PatchBlock extends Block
 {
 	public static final VoxelShape[] SHAPES = new VoxelShape[]
-	{
-		Shapes.empty(),
-		Block.box(0d, 0d, 0d, 16d, 2d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 4d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 6d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 8d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 10d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 12d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 14d, 16d),
-		Block.box(0d, 0d, 0d, 16d, 16d, 16d)
-	};
+			{
+					Shapes.empty(),
+					Block.box(0d, 0d, 0d, 16d, 2d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 4d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 6d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 8d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 10d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 12d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 14d, 16d),
+					Block.box(0d, 0d, 0d, 16d, 16d, 16d)
+			};
 
 	public PatchBlock(Properties props)
 	{
@@ -60,14 +62,14 @@ public class PatchBlock extends Block
 	{
 		switch (type)
 		{
-		case LAND:
-			return state.getValue(BlockStateProperties.LAYERS) < 5;
-		case WATER:
-			return false;
-		case AIR:
-			return false;
-		default:
-			return false;
+			case LAND:
+				return state.getValue(BlockStateProperties.LAYERS) < 5;
+			case WATER:
+				return false;
+			case AIR:
+				return false;
+			default:
+				return false;
 		}
 	}
 
@@ -90,7 +92,21 @@ public class PatchBlock extends Block
 	@Override
 	public BlockState updateShape(BlockState state, Direction side, BlockState adjState, LevelAccessor world, BlockPos pos, BlockPos adjPos)
 	{
-		return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, side, adjState, world, pos, adjPos);
+		if(!state.canSurvive(world, pos))
+		{
+			// Returning air here would destroy the block WITH drops (that is how torches drop when their support is removed).
+			// Instead, remove it silently on the next tick so nothing is dropped when the block below is broken.
+			world.scheduleTick(pos, this, 1);
+			return state;
+		}
+		return super.updateShape(state, side, adjState, world, pos, adjPos);
+	}
+
+	@Override
+	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+	{
+		if(!state.canSurvive(world, pos))
+			world.removeBlock(pos, false);
 	}
 
 	@Override

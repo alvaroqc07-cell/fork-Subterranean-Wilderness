@@ -43,6 +43,9 @@ public class MeltingPatchBlock extends PatchBlock
 	@Override
 	public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
 	{
+		super.tick(state, world, pos, random);
+		if(!world.getBlockState(pos).is(this))
+			return; // removed because it lost its support
 		if(this.isHot(world, pos, state))
 			this.melt(world, pos, state);
 	}
