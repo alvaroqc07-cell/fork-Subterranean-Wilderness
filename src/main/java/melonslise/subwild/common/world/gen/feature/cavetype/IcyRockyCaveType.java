@@ -115,7 +115,7 @@ public class IcyRockyCaveType extends BasicCaveType
 	{
 		if(noise > 0.9d)
 			this.replaceBlock(world, pos, Blocks.BLUE_ICE.defaultBlockState());
-		else if(noise > 0.8d)
+		else if(noise > 0.3d)
 			this.replaceBlock(world, pos, Blocks.PACKED_ICE.defaultBlockState());
 		else if(noise > -0.15d)
 			this.replaceBlock(world, pos, Blocks.SNOW_BLOCK.defaultBlockState());
